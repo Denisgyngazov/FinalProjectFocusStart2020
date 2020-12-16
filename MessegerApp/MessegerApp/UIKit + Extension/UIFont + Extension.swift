@@ -23,4 +23,12 @@ extension UIFont {
 		return UIFont.init(name: Metrics.nameFont,
 						   size: Metrics.sizeFontTitle)
 	}
+
+	static func laoSangam20() -> UIFont? {
+		return UIFont.init(name: "Lao Sangam MN", size: 20)
+	}
+
+	static func laoSangam18() -> UIFont? {
+		return UIFont.init(name: "Lao Sangam MN", size: 18)
+	}
 }
