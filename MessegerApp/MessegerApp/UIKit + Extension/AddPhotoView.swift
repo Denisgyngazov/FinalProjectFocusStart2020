@@ -9,12 +9,31 @@ import UIKit
 
 final class AddPhotoView: UIView {
 
-	private let imageView = UIImageView()
-	private let plusButton = UIButton(type: .system)
+	var imageView: UIImageView = {
+	   let imageView = UIImageView()
+		imageView.translatesAutoresizingMaskIntoConstraints = false
+		imageView.image = #imageLiteral(resourceName: "avatar")
+		imageView.contentMode = .scaleAspectFill
+		imageView.clipsToBounds = true
+		imageView.layer.borderColor = UIColor.black.cgColor
+		imageView.layer.borderWidth = 1
+		return imageView
+	}()
+
+	let plusButton: UIButton = {
+		let button = UIButton(type: .system)
+		button.translatesAutoresizingMaskIntoConstraints = false
+		let myImage = #imageLiteral(resourceName: "plus")
+		button.setImage(myImage, for: .normal)
+		button.tintColor = .buttonBlack()
+		return button
+	}()
+
+	//private let imageView = UIImageView()
+	//private let plusButton = UIButton(type: .system)
 
 	override init(frame: CGRect) {
 		super.init(frame: frame)
-		setupViewApperance()
 		setupViewLayout()
 		layoutSubviews()
 
@@ -30,28 +49,6 @@ final class AddPhotoView: UIView {
 		imageView.layer.cornerRadius = imageView.frame.width / 2
 	}
 
-}
-
-private extension AddPhotoView {
-	func setupViewApperance() {
-		setupImageViewApperance()
-		setupPlusViewApperance()
-	}
-
-	func setupImageViewApperance() {
-		imageView.image = #imageLiteral(resourceName: "avatar")
-		imageView.contentMode = .scaleAspectFill
-		imageView.clipsToBounds = true
-		imageView.layer.borderColor = UIColor.black.cgColor
-		imageView.layer.borderWidth = 1
-
-	}
-
-	func setupPlusViewApperance() {
-		plusButton.setImage(#imageLiteral(resourceName: "plus"), for: .normal)
-		plusButton.tintColor = .buttonBlack()
-
-	}
 }
 
 private extension AddPhotoView {

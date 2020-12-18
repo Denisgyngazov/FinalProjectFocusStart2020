@@ -17,28 +17,26 @@ final class LoginView: UIView {
 	private let emailLabel = UILabel(text: "Email")
 	private let passwordLabel = UILabel(text: "Password")
 	private let newAccountLabel = UILabel(text: "Need an account?")
-	private let googleButton = UIButton(title: Metrics.googleTitle,
-								   titleColor: Metrics.googleTitleColor,
-								   backgroundColor: Metrics.googleBackgroundColor,
-								   font: Metrics.googleFont,
-								   isShadow: Metrics.googleIsShadow,
-								   cornerRadius: Metrics.googleCornerRadius)
+	let googleButton = UIButton(title: Metrics.googleTitle,
+										titleColor: Metrics.googleTitleColor,
+										backgroundColor: Metrics.googleBackgroundColor,
+										font: Metrics.googleFont,
+										isShadow: Metrics.googleIsShadow,
+										cornerRadius: Metrics.googleCornerRadius)
 
-	 private let loginButton = UIButton(title: Metrics.loginTitle,
+	private let loginButton = UIButton(title: Metrics.loginTitle,
 									   titleColor: Metrics.loginTitleColor,
 									   backgroundColor: Metrics.loginBackgroundColor,
 									   font: Metrics.loginFont,
 									   isShadow: Metrics.loginShadow,
 									   cornerRadius: Metrics.loginCornerRadius)
 
-	 let signUpButton = UIButton(title: "Sign up",
-									   titleColor: .buttonRed(),
-									   font: .avenirDefault())
+	let signUpButton = UIButton(title: "Sign up",
+								titleColor: .buttonRed(),
+								font: .avenirDefault())
 
 	private let emailTextField = OneLineTextField(font: .avenirDefault())
 	private let passwordTextField = OneLineTextField(font: .avenirDefault())
-
-	//private let alertControl = AlertControl()
 
 
 	private enum Metrics {
@@ -75,7 +73,6 @@ final class LoginView: UIView {
 private extension LoginView {
 	func setupActionButton() {
 		loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
-		//signUpButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
 	}
 
 	@objc func loginButtonTapped() {
@@ -101,11 +98,6 @@ private extension LoginView {
 				self.showAllertController(title: "Error!", message: error.localizedDescription)
 			}
 		}
-	}
-
-	@objc func signUpButtonTapped() {
-		//findViewController()?.present(SignUpViewController(), animated: true , completion: nil)
-		
 	}
 }
 
@@ -150,7 +142,7 @@ private extension LoginView {
 			helloLabel.topAnchor.constraint(equalTo: self.topAnchor,
 											constant: 100),
 			helloLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor )
-			])
+		])
 	}
 
 	func setupGoogleLabel() {
@@ -158,9 +150,9 @@ private extension LoginView {
 		googleLabel.translatesAutoresizingMaskIntoConstraints = false
 		NSLayoutConstraint.activate([
 			googleLabel.topAnchor.constraint(equalTo: helloLabel.bottomAnchor,
-											  constant: 100),
+											 constant: 100),
 			googleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,
-											  constant: 30)
+												 constant: 30)
 		])
 	}
 
@@ -175,16 +167,16 @@ private extension LoginView {
 			googleButton.trailingAnchor.constraint(equalTo: self.trailingAnchor,
 												   constant: -30)
 		])
-}
+	}
 	func setupOrLabel() {
 		self.addSubview(orLabel)
 		orLabel.translatesAutoresizingMaskIntoConstraints = false
 
 		NSLayoutConstraint.activate([
 			orLabel.topAnchor.constraint(equalTo: googleButton.bottomAnchor,
-											  constant: 50),
+										 constant: 50),
 			orLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,
-											  constant: 30)
+											 constant: 30)
 		])
 	}
 
@@ -267,4 +259,4 @@ private extension LoginView {
 		])
 	}
 }
-	
+

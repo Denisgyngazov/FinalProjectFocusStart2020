@@ -10,6 +10,7 @@ import UIKit
 final class SingUpView: UIView {
 
 //MARK: - View
+	
 	private let helloLabel = UILabel(text: "Welcome!",
 									 font: .avenirTitle())
 
@@ -34,10 +35,6 @@ final class SingUpView: UIView {
 	private let passwordTextField = OneLineTextField(font: .avenirDefault())
 	private let confirmPasswordTextField = OneLineTextField(font: .avenirDefault())
 
-	//private let alertControl = AlertControl()
-
-	
-
 //MARK: - Init
 
 	override init(frame: CGRect) {
@@ -56,7 +53,6 @@ final class SingUpView: UIView {
 private extension SingUpView {
 	func setupActionButton() {
 		signUpButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
-		//loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
 	}
 
 	@objc func signUpButtonTapped() {
@@ -72,10 +68,6 @@ private extension SingUpView {
 			}
 		}
 	}
-
-//	@objc func loginButtonTapped() {
-//		//findViewController()?.present(LoginViewController(), animated: true, completion: nil)
-//	}
 }
 
 //MARK: - Alert controller

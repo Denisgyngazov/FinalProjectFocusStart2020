@@ -6,27 +6,35 @@
 //
 
 import UIKit
+import GoogleSignIn
 
 final class LoginViewController: UIViewController {
+
 	private let loginView = LoginView()
 
 	weak var delegate: AuthNavigationDelegate?
 
 	override func loadView() {
 		self.view = loginView
-
-		loginView.signUpButton.addTarget(self, action: #selector(action), for: .touchUpInside)
-		
-
+		setupActionButton()
 
 	}
-
 }
 
 private extension LoginViewController {
-	@objc func action() {
+	func setupActionButton() {
+		loginView.signUpButton.addTarget(self, action: #selector(singUpButtonTapped), for: .touchUpInside)
+		loginView.googleButton.addTarget(self, action: #selector(googleButtonTapped), for: .touchUpInside)
+	}
+
+	@objc func singUpButtonTapped() {
 		dismiss(animated: true) {
-			self.delegate?.toSignUpVC()
+			self.delegate?.toSignUpViewController()
 		}
+	}
+
+	 @objc func googleButtonTapped() {
+		GIDSignIn.sharedInstance()?.presentingViewController = self
+		GIDSignIn.sharedInstance()?.signIn()
 	}
 }

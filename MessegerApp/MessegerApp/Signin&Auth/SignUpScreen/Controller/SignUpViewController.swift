@@ -15,14 +15,17 @@ final class SignUpViewController: UIViewController {
 
 	override func loadView() {
 		self.view = singUpView
-		singUpView.loginButton.addTarget(self, action: #selector(action), for: .touchUpInside)
+		setupActionButton()
 	}
 }
 
 private extension SignUpViewController {
-	@objc func action() {
+	func setupActionButton() {
+		singUpView.loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
+	}
+	@objc func loginButtonTapped() {
 		self.dismiss(animated: true) {
-			self.delegate?.toLoginVC()
+			self.delegate?.toLoginViewController()
 		}
 	}
 }

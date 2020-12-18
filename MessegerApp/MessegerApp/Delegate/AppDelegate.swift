@@ -7,15 +7,21 @@
 
 import UIKit
 import Firebase
+import GoogleSignIn
+import FirebaseStorage
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 		FirebaseApp.configure()
+		GIDSignIn.sharedInstance()?.clientID = FirebaseApp.app()?.options.clientID
 		return true
+	}
+
+	@available(iOS 9.0, *)
+	func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+		return GIDSignIn.sharedInstance().handle(url)
 	}
 
 	// MARK: UISceneSession Lifecycle
@@ -25,10 +31,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
 	}
 
-	func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-
-	}
-
-
+//	func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
+//
+//	}
 }
 

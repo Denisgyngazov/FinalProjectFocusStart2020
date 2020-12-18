@@ -18,27 +18,56 @@ final class FirestoreService {
 	}
 }
 
+//MARK: - Save profile in Firestore
+
 extension FirestoreService {
-	func saveProfileWith(id: String, email: String, username: String?, avataImageString: String?, description: String?, sex: String?, completion: @escaping (Result<MUser, Error>) -> Void) {
+	func saveProfileWith(id: String,
+						 email: String,
+						 username: String?,
+						 avatarImage: UIImage?,
+						 description: String?,
+						 sex: String?,
+						 completion: @escaping (Result<MUser, Error>) -> Void) {
 		
 		guard Validators.isFilled(username: username, description: description, sex: sex) else {
 			completion(.failure(UserError.notFilled))
 			return
 		}
 
-		
-		let muser = MUser(username: username!, email: email, avatarStringURL: "not exist", description: description!, sex: sex!, id: id)
-		self.usersRef.document(muser.id).setData(muser.representation) { (error) in
-			if let error = error {
-				completion(.failure(error))
-			} else {
-				completion(.success(muser))
-			}
-
+		guard avatarImage != #imageLiteral(resourceName: "avatar") else {
+			completion(.failure(UserError.photoNotExist))
+			return
 		}
+
 		
+		var muser = MUser(username: username!,
+						  email: email,
+						  avatarStringURL: "not exist",
+						  description: description!,
+						  sex: sex!,
+						  id: id)
+		StorageService.shared.upload(photo: avatarImage!) { (result) in
+			switch result {
+
+			case .success(let url):
+				muser.avatarStringURL = url.absoluteString
+				self.usersRef.document(muser.id).setData(muser.representation) { (error) in
+					if let error = error {
+						completion(.failure(error))
+					} else {
+						completion(.success(muser))
+					}
+
+				}
+			case .failure(let error):
+				completion(.failure(error))
+
+			}
+		}
 	}
 }
+
+//MARK: - Get user data
 
 extension FirestoreService {
 	func getUserData(user: User, completion: @escaping (Result<MUser, Error>) -> Void) {
@@ -54,6 +83,5 @@ extension FirestoreService {
 				completion(.failure(UserError.cannotGetUserInfo))
 			}
 		}
-
 	}
 }

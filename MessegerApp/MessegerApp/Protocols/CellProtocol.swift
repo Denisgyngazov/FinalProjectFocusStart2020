@@ -10,5 +10,4 @@ import Foundation
 protocol ConfigureCell {
 	static var identifaer: String { get }
 	func configure<U: Hashable>(with value: U)
-
 }

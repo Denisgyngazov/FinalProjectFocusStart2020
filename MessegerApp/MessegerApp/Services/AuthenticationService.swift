@@ -8,14 +8,16 @@
 import UIKit
 import Firebase
 import FirebaseAuth
+import GoogleSignIn
 
 final class AuthenticationService {
+	//MARK: - Property
 	static let shared = AuthenticationService()
 	private let auth = Auth.auth()
 
 }
 
-//MARK: - Login
+	//MARK: - Login
 
 extension AuthenticationService {
 	func login(email: String?, password: String?, completion: @escaping (Result<User,Error>) -> Void) {
@@ -36,7 +38,7 @@ extension AuthenticationService {
 }
 
 
-//MARK: - Registered
+	//MARK: - Registered
 
 extension AuthenticationService {
 	func register(email: String?, password: String? , confirmPassword: String?, completion: @escaping (Result<User,Error>) -> Void) {
@@ -58,6 +60,27 @@ extension AuthenticationService {
 
 
 		auth.createUser(withEmail: email!, password: password!) { (result, error) in
+			guard let result = result else {
+				completion(.failure(error!))
+				return
+			}
+			completion(.success(result.user))
+		}
+	}
+}
+
+	//MARK: - Google Login
+
+extension AuthenticationService {
+	func googleLogin(user: GIDGoogleUser!, error: Error!, completion: @escaping (Result<User,Error>) -> Void) {
+		if let error = error {
+			completion(.failure(error))
+			return
+		}
+		guard let authentication = user.authentication else { return }
+		let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
+
+		Auth.auth().signIn(with: credential) { (result, error) in
 			guard let result = result else {
 				completion(.failure(error!))
 				return

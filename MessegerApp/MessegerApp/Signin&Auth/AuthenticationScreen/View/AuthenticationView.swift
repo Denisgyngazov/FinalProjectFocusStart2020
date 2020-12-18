@@ -31,7 +31,7 @@ final class AuthenticationView: UIView {
 								   isShadow: Metrics.loginIsShadow,
 								   cornerRadius: Metrics.loginCornerRadius)
 
-	private let googleButton = UIButton(title: Metrics.googleTitle,
+	 let googleButton = UIButton(title: Metrics.googleTitle,
 								   titleColor: Metrics.googleTitleColor,
 								   backgroundColor: Metrics.googleBackgroundColor,
 								   font: Metrics.googleFont,
@@ -39,9 +39,6 @@ final class AuthenticationView: UIView {
 								   cornerRadius: Metrics.googleCornerRadius)
 
 //MARK: - Property
-//	private let signUpViewController = SignUpViewController()
-//	private let loginViewController = LoginViewController()
-
 
 	private enum Metrics {
 
@@ -97,31 +94,11 @@ final class AuthenticationView: UIView {
 
 		setupGoogleImage()
 		setupViewLayout()
-		//setupActionButton()
-
-		//signUpViewController.delegate = self
-		//loginViewController.delegate = self
 
 	}
 
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
-	}
-}
-
-//MARK: - Setup Action button
-
-private extension AuthenticationView {
-	func setupActionButton() {
-		emailButton.addTarget(self, action: #selector(emailButtonTapped), for: .touchUpInside)
-		loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
-	}
-
-	@objc func emailButtonTapped() {
-		findViewController()?.present(SignUpViewController(), animated: true, completion: nil)
-	}
-	@objc func loginButtonTapped() {
-		findViewController()?.present(LoginViewController(), animated: true, completion: nil)
 	}
 }
 
@@ -194,7 +171,6 @@ private extension AuthenticationView {
 												  constant: Metrics.buttonleadingAndTrailingAnchor),
 			googleButton.trailingAnchor.constraint(equalTo: self.trailingAnchor,
 												   constant: -Metrics.buttonleadingAndTrailingAnchor),
-			//googleButton.heightAnchor.constraint(equalToConstant: Metrics.buttonHeightAnchor)
 		])
 	}
 
@@ -219,7 +195,6 @@ private extension AuthenticationView {
 												 constant: Metrics.buttonleadingAndTrailingAnchor),
 			emailButton.trailingAnchor.constraint(equalTo: self.trailingAnchor,
 												  constant: -Metrics.buttonleadingAndTrailingAnchor),
-			//emailButton.heightAnchor.constraint(equalToConstant: Metrics.buttonHeightAnchor)
 		])
 	}
 
@@ -244,7 +219,6 @@ private extension AuthenticationView {
 												 constant: Metrics.buttonleadingAndTrailingAnchor),
 			loginButton.trailingAnchor.constraint(equalTo: self.trailingAnchor,
 												  constant: -Metrics.buttonleadingAndTrailingAnchor),
-			//loginButton.heightAnchor.constraint(equalToConstant: Metrics.buttonHeightAnchor)
 		])
 	}
 }
