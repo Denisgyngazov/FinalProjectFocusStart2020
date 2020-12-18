@@ -8,5 +8,6 @@ target 'MessegerApp' do
   # Pods for MessegerApp
 pod 'Firebase/Analytics'
 pod 'Firebase/Auth'
+pod 'Firebase/Firestore'
 
 end

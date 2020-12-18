@@ -9,17 +9,25 @@ import UIKit
 
 final class MainTabBarController: UITabBarController {
 
-	private let listViewController = ListViewController()
-	private let peopleViewController = PeopleViewController()
+	private let currentUser: MUser
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setupTabBarController()
 
+	}
 
-
+	init(currentUser: MUser) {
+		self.currentUser = currentUser
+		super.init(nibName: nil, bundle: nil)
+	}
+	
+	required init?(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
 	}
 }
+
+
 
 //MARK: - Setup TabBarController
 
@@ -31,10 +39,10 @@ private extension MainTabBarController {
 		tabBar.tintColor = #colorLiteral(red: 0.1215686277, green: 0.01176470611, blue: 0.4235294163, alpha: 1)
 
 		viewControllers = [
-		generateNavigationController(rootViewController: peopleViewController,
+		generateNavigationController(rootViewController: PeopleViewController(currentUser: currentUser),
 										 title: "People",
 										 image: peopleImage ?? #imageLiteral(resourceName: "queshion")),
-		generateNavigationController(rootViewController: listViewController,
+		generateNavigationController(rootViewController: ListViewController(currentUser: currentUser),
 									 title: "Conversation",
 									 image: conversationImage ?? #imageLiteral(resourceName: "queshion"))
 

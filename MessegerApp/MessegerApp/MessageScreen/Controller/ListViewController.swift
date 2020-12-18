@@ -24,6 +24,7 @@ final class ListViewController: UIViewController {
 			}
 		}
 	}
+	private let currentUser: MUser
 	private var dataSource: UICollectionViewDiffableDataSource<Section, Message>?
 
 	private let waitingChats = Bundle.main.decode([Message].self, from: "waitingChats.json")
@@ -43,6 +44,16 @@ final class ListViewController: UIViewController {
 		setupDataSource()
 		reloadData()
 
+	}
+
+	init(currentUser: MUser) {
+		self.currentUser = currentUser
+		super.init(nibName: nil, bundle: nil)
+		title = currentUser.username
+	}
+	
+	required init?(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
 	}
 }
 

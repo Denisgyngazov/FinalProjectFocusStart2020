@@ -24,19 +24,21 @@ final class LoginView: UIView {
 								   isShadow: Metrics.googleIsShadow,
 								   cornerRadius: Metrics.googleCornerRadius)
 
-	private let loginButton = UIButton(title: Metrics.loginTitle,
+	 private let loginButton = UIButton(title: Metrics.loginTitle,
 									   titleColor: Metrics.loginTitleColor,
 									   backgroundColor: Metrics.loginBackgroundColor,
 									   font: Metrics.loginFont,
 									   isShadow: Metrics.loginShadow,
 									   cornerRadius: Metrics.loginCornerRadius)
 
-	private let signUpButton = UIButton(title: "Sign up",
+	 let signUpButton = UIButton(title: "Sign up",
 									   titleColor: .buttonRed(),
 									   font: .avenirDefault())
 
 	private let emailTextField = OneLineTextField(font: .avenirDefault())
 	private let passwordTextField = OneLineTextField(font: .avenirDefault())
+
+	//private let alertControl = AlertControl()
 
 
 	private enum Metrics {
@@ -60,10 +62,62 @@ final class LoginView: UIView {
 		self.backgroundColor = .white
 		setupGoogleImage()
 		setupViewLayout()
+		setupActionButton()
 	}
 
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
+	}
+}
+
+//MARK: - Setup Action button
+
+private extension LoginView {
+	func setupActionButton() {
+		loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
+		//signUpButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
+	}
+
+	@objc func loginButtonTapped() {
+		AuthenticationService.shared.login(email: emailTextField.text, password: passwordTextField.text) { (result) in
+			switch result {
+
+			case .success(let user):
+				self.showAllertController(title: "Success!", message: "Are you log in") {
+					FirestoreService.shared.getUserData(user: user) { (result) in
+						switch result {
+
+						case .success(let muser):
+							let mainTabBar = MainTabBarController(currentUser: muser)
+							mainTabBar.modalPresentationStyle = .fullScreen
+							self.findViewController()?.present(mainTabBar, animated: true, completion: nil)
+						case .failure(_):
+							self.findViewController()?.present(SetupProfileViewController(currentUser: user), animated: true, completion: nil)
+						}
+					}
+
+				}
+			case .failure(let error):
+				self.showAllertController(title: "Error!", message: error.localizedDescription)
+			}
+		}
+	}
+
+	@objc func signUpButtonTapped() {
+		//findViewController()?.present(SignUpViewController(), animated: true , completion: nil)
+		
+	}
+}
+
+private extension LoginView {
+	func showAllertController(title: String, message: String, completion: @escaping () -> Void = { }) {
+		let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+		let acceptAction = UIAlertAction(title: "Continue", style: .default) { (_) in
+			completion()
+		}
+		alertController.addAction(acceptAction)
+		findViewController()?.present(alertController, animated: true, completion: nil)
+
 	}
 }
 

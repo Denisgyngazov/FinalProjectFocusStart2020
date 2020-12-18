@@ -25,7 +25,7 @@ final class SingUpView: UIView {
 										isShadow: false,
 										cornerRadius: 4)
 
-	private let loginButton = UIButton(title: "Login",
+	 let loginButton = UIButton(title: "Login",
 									   titleColor: .buttonRed(),
 									   font: .avenirDefault())
 	
@@ -33,6 +33,8 @@ final class SingUpView: UIView {
 	private let emailTextField = OneLineTextField(font: .avenirDefault())
 	private let passwordTextField = OneLineTextField(font: .avenirDefault())
 	private let confirmPasswordTextField = OneLineTextField(font: .avenirDefault())
+
+	//private let alertControl = AlertControl()
 
 	
 
@@ -43,10 +45,49 @@ final class SingUpView: UIView {
 		self.backgroundColor = .white
 
 		setupViewLayout()
+		setupActionButton()
 	}
 
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
+	}
+}
+
+private extension SingUpView {
+	func setupActionButton() {
+		signUpButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
+		//loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
+	}
+
+	@objc func signUpButtonTapped() {
+		AuthenticationService.shared.register(email: emailTextField.text, password: passwordTextField.text, confirmPassword: confirmPasswordTextField.text) { (result) in
+			switch result {
+
+			case .success(let user):
+				self.showAllertController(title: "Success!", message: "Are you resistered") {
+					self.findViewController()?.present(SetupProfileViewController(currentUser: user), animated: true, completion: nil)
+				}
+			case .failure(let error):
+				self.showAllertController(title: "Error!", message: error.localizedDescription)
+			}
+		}
+	}
+
+//	@objc func loginButtonTapped() {
+//		//findViewController()?.present(LoginViewController(), animated: true, completion: nil)
+//	}
+}
+
+//MARK: - Alert controller
+private extension SingUpView {
+	func showAllertController(title: String, message: String, completion: @escaping () -> Void = { }) {
+		let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+		let acceptAction = UIAlertAction(title: "Continue", style: .default) { (_) in
+			completion()
+		}
+		alertController.addAction(acceptAction)
+		findViewController()?.present(alertController, animated: true, completion: nil)
+
 	}
 }
 

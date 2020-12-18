@@ -38,7 +38,7 @@ extension UserCell {
 
 extension UserCell: ConfigureCell {
 	func configure<U>(with value: U) where U : Hashable {
-		guard let user: User = value as? User else { return }
+		guard let user: MUser = value as? MUser else { return }
 		userImageView.image = UIImage(named: user.avatarStringURL)
 		userName.text = user.username
 	}

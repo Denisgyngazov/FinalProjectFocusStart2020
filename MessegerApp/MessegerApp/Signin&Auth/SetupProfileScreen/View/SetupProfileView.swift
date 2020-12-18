@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 final class SetupProfileView: UIView {
 
@@ -15,22 +16,33 @@ final class SetupProfileView: UIView {
 	private let fullNameLabel = UILabel(text: "Full name")
 	private let aboutLabel = UILabel(text: "About me")
 	private let sexLabel = UILabel(text: "Sex")
-	private let fullNameTextField = OneLineTextField(font: .avenirDefault())
-	private let aboutTextField = OneLineTextField(font: .avenirDefault())
-	private let sexSegmentedControl = UISegmentedControl(first: "Male", second: "Female")
-	private let comeinButton = UIButton(title: "To come in",
+	 let fullNameTextField = OneLineTextField(font: .avenirDefault())
+	 let aboutTextField = OneLineTextField(font: .avenirDefault())
+	 let sexSegmentedControl = UISegmentedControl(first: "Male", second: "Female")
+	 let comeinButton = UIButton(title: "To come in",
 										titleColor: .white,
 										backgroundColor: .buttonBlack(),
 										font: .avenirDefault(),
 										isShadow: false,
 										cornerRadius: 4)
 
+	//private let alertControl = AlertControl()
+
+//	private let currentUser: User
+//	init(currentUser: User) {
+//		self.currentUser = currentUser
+//
+//
+//	}
 
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		self.backgroundColor = .white
 
+
+
 		setupViewLayout()
+		//setupActionButton()
 	}
 
 	required init?(coder: NSCoder) {
@@ -38,6 +50,34 @@ final class SetupProfileView: UIView {
 	}
 	
 }
+
+//private extension SetupProfileView {
+//	func setupActionButton() {
+//		comeinButton.addTarget(self, action: #selector(comeinButtonTapped), for: .touchUpInside)
+//	}
+////&&
+//	@objc func comeinButtonTapped() {
+//		guard let email = currentUser.email else {return}
+//
+//		FirestoreService.shared.saveProfileWith(
+//			id: currentUser.uid,
+//			email: email,
+//			username: fullNameTextField.text,
+//			avataImageString: "nil",
+//			description: aboutTextField.text,
+//			sex: sexSegmentedControl.titleForSegment(at: sexSegmentedControl.selectedSegmentIndex)) { (result) in
+//
+//			switch result {
+//
+//			case .success(let user):
+//				self.alertControl.showAllertController(title: "Sucess!", message: "Приятного общения!")
+//				print(user)
+//			case .failure(let error):
+//				self.alertControl.showAllertController(title: "Error!", message: error.localizedDescription)
+//			}
+//		}
+//	}
+//}
 
 private extension SetupProfileView {
 	func setupViewLayout() {

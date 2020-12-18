@@ -17,14 +17,14 @@ final class AuthenticationView: UIView {
 	private let logindLabel = UILabel(text: "Already registered?")
 	private let logoImageView = UIImageView(image: #imageLiteral(resourceName: "logo"), contentMode: .scaleAspectFit)
 
-	private let emailButton = UIButton(title: Metrics.emailTitle,
+	 let emailButton = UIButton(title: Metrics.emailTitle,
 								   titleColor: Metrics.emailTitleColor,
 								   backgroundColor: Metrics.emailBackgroundColor,
 								   font: Metrics.emailFont,
 								   isShadow: Metrics.emailIsShadow,
 								   cornerRadius: Metrics.emailCornerRadius)
 
-	private let loginButton = UIButton(title: Metrics.loginTitle,
+	 let loginButton = UIButton(title: Metrics.loginTitle,
 								   titleColor: Metrics.loginTitleColor,
 								   backgroundColor: Metrics.loginBackgroundColor,
 								   font: Metrics.loginFont,
@@ -39,6 +39,9 @@ final class AuthenticationView: UIView {
 								   cornerRadius: Metrics.googleCornerRadius)
 
 //MARK: - Property
+//	private let signUpViewController = SignUpViewController()
+//	private let loginViewController = LoginViewController()
+
 
 	private enum Metrics {
 
@@ -94,11 +97,31 @@ final class AuthenticationView: UIView {
 
 		setupGoogleImage()
 		setupViewLayout()
+		//setupActionButton()
+
+		//signUpViewController.delegate = self
+		//loginViewController.delegate = self
 
 	}
 
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
+	}
+}
+
+//MARK: - Setup Action button
+
+private extension AuthenticationView {
+	func setupActionButton() {
+		emailButton.addTarget(self, action: #selector(emailButtonTapped), for: .touchUpInside)
+		loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
+	}
+
+	@objc func emailButtonTapped() {
+		findViewController()?.present(SignUpViewController(), animated: true, completion: nil)
+	}
+	@objc func loginButtonTapped() {
+		findViewController()?.present(LoginViewController(), animated: true, completion: nil)
 	}
 }
 
@@ -225,3 +248,5 @@ private extension AuthenticationView {
 		])
 	}
 }
+
+
