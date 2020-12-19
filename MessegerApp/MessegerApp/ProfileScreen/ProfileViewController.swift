@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 final class ProfileViewController: UIViewController {
 
@@ -15,6 +16,8 @@ final class ProfileViewController: UIViewController {
 	private let aboutLabel = UILabel(text: "Yoy hahe the", font: .systemFont(ofSize: 16, weight: .light))
 	private let myTextFIeld = InsertableTextField()
 
+	private let user: MUser
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		view.backgroundColor = .red
@@ -22,19 +25,46 @@ final class ProfileViewController: UIViewController {
 		setupViewLayout()
 		setupActionSend()
 	}
+
+	init(user: MUser) {
+		self.user = user
+		self.nameLabel.text = user.username
+		self.aboutLabel.text = user.description
+		let url = URL(string: user.avatarStringURL)
+		self.imageVIew.sd_setImage(with: url, completed: nil)
+		super.init(nibName: nil, bundle: nil)
+	}
+
+
+	required init?(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+
 }
+
 
 //MARK: - Action send
 
 private extension ProfileViewController {
 	func setupActionSend() {
-		if let button = myTextFIeld.rightView as? UIButton {
+		if let button = self.myTextFIeld.rightView as? UIButton {
 			button.addTarget(self, action: #selector(sendMessage), for: .touchUpInside)
 		}
 	}
 
 	@objc func sendMessage() {
-		print(#function)
+		guard let message = self.myTextFIeld.text, message.isEmpty == false else { return }
+		self.dismiss(animated: true) {
+			FirestoreService.shared.createWaitingChat(message: message, receiver: self.user) { (result) in
+				switch result {
+
+				case .success:
+					UIApplication.getTopViewController()?.showAllertController(title: "Успешно", message: "Ваше сообщение для \(self.user.username) отправлено")
+				case .failure(let error):
+					UIApplication.getTopViewController()?.showAllertController(title: "Error!", message: error.localizedDescription)
+				}
+			}
+		}
 	}
 }
 
@@ -128,36 +158,11 @@ private extension ProfileViewController {
 			myTextFIeld.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 25),
 			myTextFIeld.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -25),
 			myTextFIeld.heightAnchor.constraint(equalToConstant: 50)
-
-
 		])
 
 	}
 }
 
-import SwiftUI
-
-struct ProfileViewControllerd: PreviewProvider {
-	static var previews: some View {
-
-		ContainerViewwccc().edgesIgnoringSafeArea(.all)
-	}
-}
-
-struct ContainerViewwccc: UIViewControllerRepresentable {
-
-	let viewController = ProfileViewController()
-
-	func makeUIViewController(context: Context) -> some UIViewController {
-		return viewController
-	}
-
-	func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
-
-	}
-
-
-}
 
 
 

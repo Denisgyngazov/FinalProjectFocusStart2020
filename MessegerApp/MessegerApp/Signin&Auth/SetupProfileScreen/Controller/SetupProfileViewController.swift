@@ -46,9 +46,9 @@ extension SetupProfileViewController: UINavigationControllerDelegate {
 	}
 
 }
+//??
 
 extension SetupProfileViewController: UIImagePickerControllerDelegate {
-
 
 }
 //MARK: - Setup action button

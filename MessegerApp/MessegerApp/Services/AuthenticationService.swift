@@ -11,7 +11,9 @@ import FirebaseAuth
 import GoogleSignIn
 
 final class AuthenticationService {
+
 	//MARK: - Property
+	
 	static let shared = AuthenticationService()
 	private let auth = Auth.auth()
 

@@ -27,6 +27,9 @@ final class ChatRequestViewController: UIViewController {
 								   isShadow: Metrics.aceptIsShadow,
 								   cornerRadius: Metrics.aceptCornerRadius)
 
+	private var chat: Message
+	weak var delegate: WaitingChatDelegate?
+
 	private enum Metrics {
 
 //MARK: - Button propertys
@@ -51,8 +54,40 @@ final class ChatRequestViewController: UIViewController {
 		view.backgroundColor = .blue
 		setupViewApperance()
 		setupViewLayout()
+		setupActionButton()
+	}
+
+	init(chat: Message) {
+		self.chat = chat
+		nameLabel.text = chat.friendUsername
+		imageVIew.sd_setImage(with: URL(string: chat.friendUserImageString), completed: nil)
+		super.init(nibName: nil, bundle: nil)
 	}
 	
+	required init?(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+	
+}
+//MARK: - Setup action button
+
+private extension ChatRequestViewController {
+	func setupActionButton() {
+		cancelButton.addTarget(self, action: #selector(setupCancelTapped), for: .touchUpInside)
+		acceptButton.addTarget(self, action: #selector(setupActionTapped), for: .touchUpInside)
+
+	}
+
+	@objc func setupCancelTapped() {
+		self.dismiss(animated: true) {
+			self.delegate?.removeWaitingChat(chat: self.chat)
+		}
+	}
+	@objc func setupActionTapped() {
+		self.dismiss(animated: true) {
+			self.delegate?.chatToActive(chat: self.chat)
+		}
+	}
 }
 
 private extension ChatRequestViewController {

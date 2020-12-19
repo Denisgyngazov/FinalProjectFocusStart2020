@@ -28,7 +28,7 @@ final class WaitingChatCell: UICollectionViewCell {
 extension WaitingChatCell: ConfigureCell {
 	func configure<U>(with value: U) where U : Hashable {
 		guard let message: Message = value as? Message else { return }
-		friendImageView.image = UIImage(named: message.userImageString)
+		friendImageView.sd_setImage(with: URL(string: message.friendUserImageString), completed: nil)
 	}
 
 	static var identifaer = "WaitingChatCell"

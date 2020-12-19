@@ -40,6 +40,9 @@
 		C4C2747C258C987F000EF01D /* UIAplication + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C2747B258C987F000EF01D /* UIAplication + Extension.swift */; };
 		C4C27498258C9CA7000EF01D /* StorageServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C27497258C9CA7000EF01D /* StorageServices.swift */; };
 		C4C274B8258CA4D0000EF01D /* UIimage + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C274B7258CA4D0000EF01D /* UIimage + Extension.swift */; };
+		C4C274BB258CB87B000EF01D /* ListenerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C274BA258CB87B000EF01D /* ListenerService.swift */; };
+		C4C274D8258CCD9E000EF01D /* ModelBodyMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C274D7258CCD9E000EF01D /* ModelBodyMessage.swift */; };
+		C4C274DB258E0010000EF01D /* WaitingChatDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C274DA258E0010000EF01D /* WaitingChatDelegate.swift */; };
 		C4C605AB2588936D0074C595 /* CellProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C605AA2588936D0074C595 /* CellProtocol.swift */; };
 		C4C605AE2588979D0074C595 /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C605AD2588979D0074C595 /* SectionHeader.swift */; };
 		C4C605B12588AE100074C595 /* users.json in Resources */ = {isa = PBXBuildFile; fileRef = C4C605B02588AE100074C595 /* users.json */; };
@@ -99,6 +102,9 @@
 		C4C2747B258C987F000EF01D /* UIAplication + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAplication + Extension.swift"; sourceTree = "<group>"; };
 		C4C27497258C9CA7000EF01D /* StorageServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageServices.swift; sourceTree = "<group>"; };
 		C4C274B7258CA4D0000EF01D /* UIimage + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIimage + Extension.swift"; sourceTree = "<group>"; };
+		C4C274BA258CB87B000EF01D /* ListenerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenerService.swift; sourceTree = "<group>"; };
+		C4C274D7258CCD9E000EF01D /* ModelBodyMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelBodyMessage.swift; sourceTree = "<group>"; };
+		C4C274DA258E0010000EF01D /* WaitingChatDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitingChatDelegate.swift; sourceTree = "<group>"; };
 		C4C605AA2588936D0074C595 /* CellProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellProtocol.swift; sourceTree = "<group>"; };
 		C4C605AD2588979D0074C595 /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
 		C4C605B02588AE100074C595 /* users.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = users.json; sourceTree = "<group>"; };
@@ -184,6 +190,7 @@
 			children = (
 				C435C98E25876B3D004FFC5D /* ModelMessage.swift */,
 				C4C605B32588AE900074C595 /* ModelUser.swift */,
+				C4C274D7258CCD9E000EF01D /* ModelBodyMessage.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -411,6 +418,7 @@
 				C4C60631258A20EA0074C595 /* AuthenticationService.swift */,
 				C4C60646258B4B750074C595 /* FirestoreService.swift */,
 				C4C27497258C9CA7000EF01D /* StorageServices.swift */,
+				C4C274BA258CB87B000EF01D /* ListenerService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -430,6 +438,7 @@
 			children = (
 				C4C605AA2588936D0074C595 /* CellProtocol.swift */,
 				C4C60643258B48A60074C595 /* AuthenticationDelegateProtocol.swift */,
+				C4C274DA258E0010000EF01D /* WaitingChatDelegate.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -571,6 +580,7 @@
 			files = (
 				C435C9762584BCD7004FFC5D /* SegmentedControl + Extension.swift in Sources */,
 				C4C605AB2588936D0074C595 /* CellProtocol.swift in Sources */,
+				C4C274DB258E0010000EF01D /* WaitingChatDelegate.swift in Sources */,
 				C4C605C62589DF060074C595 /* InsertableTextField.swift in Sources */,
 				C4AC5D2125837AB000764614 /* UIImageView + Extension.swift in Sources */,
 				C4C60647258B4B750074C595 /* FirestoreService.swift in Sources */,
@@ -592,6 +602,7 @@
 				C435C983258746FF004FFC5D /* ListViewController.swift in Sources */,
 				C4C60644258B48A60074C595 /* AuthenticationDelegateProtocol.swift in Sources */,
 				C4C605CF2589F6060074C595 /* ChatRequestViewController.swift in Sources */,
+				C4C274BB258CB87B000EF01D /* ListenerService.swift in Sources */,
 				C4C605CA2589ED8F0074C595 /* UIView + Extension.swift in Sources */,
 				C4AC5CFA25834D0400764614 /* AuthenticationViewController.swift in Sources */,
 				C4AC5D4C2584AA5100764614 /* AddPhotoView.swift in Sources */,
@@ -612,6 +623,7 @@
 				C4C605AE2588979D0074C595 /* SectionHeader.swift in Sources */,
 				C435C9A12588774D004FFC5D /* GradientView.swift in Sources */,
 				C4AC5D3325846AD500764614 /* OneLineTextField.swift in Sources */,
+				C4C274D8258CCD9E000EF01D /* ModelBodyMessage.swift in Sources */,
 				C4C6063E258B1D460074C595 /* AuthenticationError.swift in Sources */,
 				C435C98F25876B3D004FFC5D /* ModelMessage.swift in Sources */,
 			);

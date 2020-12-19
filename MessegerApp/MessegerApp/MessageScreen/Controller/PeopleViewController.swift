@@ -7,12 +7,13 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseFirestore
 
 final class PeopleViewController: UIViewController {
 
-	//private let users = Bundle.main.decode([MUser].self, from: "users.json")
+	private var usersListener: ListenerRegistration?
 	private let currentUser: MUser
-	private let users = [MUser]()
+	private var users = [MUser]()
 	private var collectionView: UICollectionView!
 	private var dataSource: UICollectionViewDiffableDataSource<Section, MUser>?
 
@@ -22,14 +23,9 @@ final class PeopleViewController: UIViewController {
 		setupSearchBar()
 		setupCollectionView()
 		setupDataSource()
-		reloadData(with: nil)
+		setupUsersListener()
 
 		navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Log out", style: .plain, target: self, action: #selector(signOut))
-
-
-		users.forEach({ (users) in
-			print(users.username)
-		})
 
 	}
 
@@ -37,6 +33,10 @@ final class PeopleViewController: UIViewController {
 		self.currentUser = currentUser
 		super.init(nibName: nil, bundle: nil)
 		title = currentUser.username
+	}
+
+	deinit {
+		usersListener?.remove()
 	}
 
 	required init?(coder: NSCoder) {
@@ -68,10 +68,38 @@ final class PeopleViewController: UIViewController {
 				return "\(usersCount) people nearby"
 			}
 		}
-
-
 	}
 }
+
+//MARK: - Delegate tapped on cell
+
+extension PeopleViewController: UICollectionViewDelegate {
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		guard let user = self.dataSource?.itemIdentifier(for: indexPath) else { return }
+		let profileViewController = ProfileViewController(user: user)
+		present(profileViewController, animated: true, completion: nil)
+	}
+}
+
+//MARK: - Setup users listener
+
+extension PeopleViewController {
+	func setupUsersListener() {
+		usersListener = ListenerService.shared.usersObserve(users: users, completion: { (result) in
+			switch result {
+
+			case .success(let users):
+				self.users = users
+				self.reloadData(with: nil)
+
+			case .failure(let error):
+				self.showAllertController(title: "Error!", message: error.localizedDescription)
+			}
+		})
+	}
+}
+
+//MARK: - Delegate search bar
 
 extension PeopleViewController: UISearchBarDelegate {
 	func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -108,6 +136,7 @@ private extension PeopleViewController {
 }
 
 //MARK: - Reload Data
+
 private extension PeopleViewController {
 	func reloadData(with searchText: String?) {
 		let filteredArray = users.filter { (user) -> Bool in
@@ -178,6 +207,8 @@ private extension PeopleViewController {
 
 		collectionView.register(SectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeader.reuseIdentifaer)
 		collectionView.register(UserCell.self, forCellWithReuseIdentifier: UserCell.identifaer)
+
+		collectionView.delegate = self
 
 	}
 }

@@ -30,8 +30,8 @@ final class ActiveChatCell: UICollectionViewCell {
 extension ActiveChatCell: ConfigureCell {
 	func configure<U>(with value: U) where U : Hashable {
 		guard let message: Message = value as? Message else { return }
-		friendImageView.image = UIImage(named: message.userImageString)
-		friendName.text = message.username
+		friendImageView.sd_setImage(with: URL(string: message.friendUserImageString), completed: nil)
+		friendName.text = message.friendUsername
 		lastMessage.text = message.lastMessage
 	}
 

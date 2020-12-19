@@ -16,6 +16,14 @@ final class FirestoreService {
 	private var usersRef: CollectionReference {
 		return dataBase.collection("users")
 	}
+
+	private var currentUser: MUser!
+	private var waitingChatReference: CollectionReference {
+		return dataBase.collection(["users", currentUser.id, "waitingChat"].joined(separator: "/"))
+	}
+	private var activeChatReference: CollectionReference {
+		return dataBase.collection(["users", currentUser.id, "activeChat"].joined(separator: "/"))
+	}
 }
 
 //MARK: - Save profile in Firestore
@@ -67,6 +75,142 @@ extension FirestoreService {
 	}
 }
 
+//MARK: - Delete waiting chat
+
+extension FirestoreService {
+	func deleteWaitingChat(chat: Message, completion: @escaping (Result<Void, Error>) -> Void) {
+		waitingChatReference.document(chat.id).delete { (error) in
+			if let error = error {
+				completion(.failure(error))
+				return
+			}
+			self.deleteMessages(chat: chat, completion: completion)
+		}
+
+	}
+
+	func deleteMessages(chat: Message, completion: @escaping (Result<Void, Error>) -> Void) {
+		let reference = waitingChatReference.document(chat.id).collection("messages")
+		getWaitingChatMessages(chat: chat) { (result) in
+			switch result {
+
+			case .success(let messages):
+				for message in messages {
+					guard let documentId = message.id else { return }
+					let messagesReference = reference.document(documentId)
+					messagesReference.delete { (error) in
+						if let error = error {
+							completion(.failure(error))
+							return
+						}
+						completion(.success(Void()))
+					}
+				}
+
+			case .failure(let error):
+				completion(.failure(error))
+			}
+		}
+
+	}
+
+
+	 func getWaitingChatMessages(chat: Message, completion: @escaping (Result<[BodyMessage], Error>) -> Void) {
+		let reference = waitingChatReference.document(chat.id).collection("messages")
+		var messages = [BodyMessage]()
+		reference.getDocuments { (quartSnapshot, error) in
+			if let error = error {
+				completion(.failure(error))
+				return
+			}
+			for document in quartSnapshot!.documents {
+				guard let message = BodyMessage(document: document) else { return }
+				messages.append(message)
+			}
+			completion(.success(messages))
+		}
+	}
+}
+
+//MARK: - Change to actiave chat
+
+extension FirestoreService {
+	func changeToActive(chat: Message, completion: @escaping (Result<Void, Error>) -> Void) {
+		getWaitingChatMessages(chat: chat) { (result) in
+			switch result {
+
+			case .success(let messages):
+				self.deleteWaitingChat(chat: chat) { (result) in
+					switch result {
+
+					case .success():
+						self.createActiveChat(chat: chat, messages: messages) { (result) in
+							switch result {
+
+							case .success():
+								completion(.success(Void()))
+							case .failure(let error):
+								completion(.failure(error))
+							}
+						}
+					case .failure(let error):
+						completion(.failure(error))
+					}
+				}
+			case .failure(let error):
+				completion(.failure(error))
+			}
+		}
+	}
+
+	func createActiveChat(chat: Message, messages: [BodyMessage], completion: @escaping (Result<Void, Error>) -> Void) {
+		let messageRefference = activeChatReference.document(chat.id).collection("messages")
+		activeChatReference.document(chat.id).setData(chat.representation) { (error) in
+			if let error = error {
+				completion(.failure(error))
+				return
+			}
+			for message in messages {
+				messageRefference.addDocument(data: message.representation) { (error) in
+					if let error = error {
+						completion(.failure(error))
+						return
+					}
+					completion(.success(Void()))
+				}
+			}
+		}
+	}
+}
+
+//MARK: - Create waiting chat
+
+extension FirestoreService {
+	func createWaitingChat(message: String, receiver: MUser, completion: @escaping (Result<Void, Error>) -> Void) {
+		let reference = dataBase.collection(["users", receiver.id, "waitingChat"].joined(separator: "/"))
+		let messageReference = reference.document(self.currentUser.id).collection("messages")
+		let message = BodyMessage(user: currentUser , content: message)
+		let chat = Message(friendUsername: currentUser.username,
+						   friendUserImageString: currentUser.avatarStringURL,
+						   lastMessage: message.content,
+						   id: currentUser.id)
+
+		reference.document(currentUser.id).setData(chat.representation) { (error) in
+			if let error = error {
+				completion(.failure(error))
+				return
+			}
+			messageReference.addDocument(data: message.representation) { (error) in
+				if let error = error {
+					completion(.failure(error))
+					return
+				}
+				completion(.success(Void()))
+			}
+		}
+	}
+}
+
 //MARK: - Get user data
 
 extension FirestoreService {
@@ -78,6 +222,7 @@ extension FirestoreService {
 					completion(.failure(UserError.cannotUnwrapToUser))
 					return
 				}
+				self.currentUser = muser
 				completion(.success(muser))
 			} else {
 				completion(.failure(UserError.cannotGetUserInfo))
