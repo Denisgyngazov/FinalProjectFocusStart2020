@@ -29,9 +29,6 @@ final class AddPhotoView: UIView {
 		return button
 	}()
 
-	//private let imageView = UIImageView()
-	//private let plusButton = UIButton(type: .system)
-
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		setupViewLayout()

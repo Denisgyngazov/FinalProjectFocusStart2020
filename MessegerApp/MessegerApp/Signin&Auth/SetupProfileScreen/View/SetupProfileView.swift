@@ -10,21 +10,53 @@ import FirebaseAuth
 
 final class SetupProfileView: UIView {
 
-	let fillImageView = AddPhotoView()
+	//MARK: - Property
 
-	private let profileLabel = UILabel(text: "Set up profile", font: .avenirTitle())
-	private let fullNameLabel = UILabel(text: "Full name")
-	private let aboutLabel = UILabel(text: "About me")
-	private let sexLabel = UILabel(text: "Sex")
-	 let fullNameTextField = OneLineTextField(font: .avenirDefault())
-	 let aboutTextField = OneLineTextField(font: .avenirDefault())
-	 let sexSegmentedControl = UISegmentedControl(first: "Male", second: "Female")
-	 let comeinButton = UIButton(title: "To come in",
-										titleColor: .white,
+	private enum Metrics {
+		static let profileTextLabel: String = "Set up profile"
+		static let fullNameTextLabel: String = "Full name"
+		static let aboutTextLabel: String = "About me"
+		static let sexTextLabel: String = "Sex"
+		static let firstSegment: String = "Male"
+		static let secondSegment: String = "Female"
+		static let comeinButtonTitle: String = "To come in"
+
+		static let comeinButtonTitleColor: UIColor = .white
+		static let comeinButtonIsShadow: Bool = false
+		static let comeinButtonCornerRadius: CGFloat = 4
+	}
+
+	private enum Layout {
+		static let profileLabelTopAnchor: CGFloat = 100
+		static let fillImageViewTopAnchor: CGFloat = 30
+		static let fullNameLabelTopAnchor: CGFloat = 30
+		static let textFieldTopAnchor: CGFloat = 20
+		static let leadingAndTrailingAnchor: CGFloat = 30
+		static let aboutLabelTopAnchor: CGFloat = 30
+		static let sexLabelTopAnchor: CGFloat = 20
+		static let sexSegmentTopAnchor: CGFloat = 20
+		static let comeInButtonTopAnchor: CGFloat = 50
+	}
+
+	//MARK: - View
+
+	let fillImageView = AddPhotoView()
+	private let profileLabel = UILabel(text: Metrics.profileTextLabel,
+									   font: .avenirTitle())
+	private let fullNameLabel = UILabel(text: Metrics.fullNameTextLabel)
+	private let aboutLabel = UILabel(text: Metrics.aboutTextLabel)
+	private let sexLabel = UILabel(text: Metrics.sexTextLabel)
+	let fullNameTextField = OneLineTextField(font: .avenirDefault())
+	let aboutTextField = OneLineTextField(font: .avenirDefault())
+	let sexSegmentedControl = UISegmentedControl(first: Metrics.firstSegment,
+												 second: Metrics.secondSegment)
+    let comeinButton = UIButton(title: Metrics.comeinButtonTitle,
+								titleColor: Metrics.comeinButtonTitleColor,
 										backgroundColor: .buttonBlack(),
 										font: .avenirDefault(),
-										isShadow: false,
-										cornerRadius: 4)
+										isShadow: Metrics.comeinButtonIsShadow,
+										cornerRadius: Metrics.comeinButtonCornerRadius)
+	//MARK: - Init
 
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -39,6 +71,7 @@ final class SetupProfileView: UIView {
 	}
 	
 }
+//MARK: - Layout
 
 private extension SetupProfileView {
 	func setupViewLayout() {
@@ -58,9 +91,9 @@ private extension SetupProfileView {
 		profileLabel.translatesAutoresizingMaskIntoConstraints = false
 
 		NSLayoutConstraint.activate([
-			profileLabel.topAnchor.constraint(equalTo: self.topAnchor,
-											constant: 100),
-			profileLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor )
+			profileLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor,
+											  constant: Layout.profileLabelTopAnchor),
+			profileLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor)
 			])
 		}
 
@@ -70,7 +103,7 @@ private extension SetupProfileView {
 
 		NSLayoutConstraint.activate([
 			fillImageView.topAnchor.constraint(equalTo: profileLabel.bottomAnchor,
-											constant: 30),
+											   constant: Layout.fillImageViewTopAnchor),
 			fillImageView.centerXAnchor.constraint(equalTo: self.centerXAnchor )
 			])
 	}
@@ -80,8 +113,10 @@ private extension SetupProfileView {
 		fullNameLabel.translatesAutoresizingMaskIntoConstraints = false
 
 		NSLayoutConstraint.activate([
-			fullNameLabel.topAnchor.constraint(equalTo: fillImageView.bottomAnchor, constant: 30),
-			fullNameLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30)
+			fullNameLabel.topAnchor.constraint(equalTo: fillImageView.bottomAnchor,
+											   constant: Layout.fullNameLabelTopAnchor),
+			fullNameLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,
+												   constant: Layout.leadingAndTrailingAnchor)
 		])
 	}
 
@@ -90,9 +125,12 @@ private extension SetupProfileView {
 		fullNameTextField.translatesAutoresizingMaskIntoConstraints = false
 
 		NSLayoutConstraint.activate([
-			fullNameTextField.topAnchor.constraint(equalTo: fullNameLabel.bottomAnchor, constant: 20),
-			fullNameTextField.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30),
-			fullNameTextField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -40)
+			fullNameTextField.topAnchor.constraint(equalTo: fullNameLabel.bottomAnchor,
+												   constant: Layout.textFieldTopAnchor),
+			fullNameTextField.leadingAnchor.constraint(equalTo: self.leadingAnchor,
+													   constant: Layout.leadingAndTrailingAnchor),
+			fullNameTextField.trailingAnchor.constraint(equalTo: self.trailingAnchor,
+														constant: -Layout.leadingAndTrailingAnchor)
 		])
 	}
 
@@ -101,8 +139,10 @@ private extension SetupProfileView {
 		aboutLabel.translatesAutoresizingMaskIntoConstraints = false
 
 		NSLayoutConstraint.activate([
-			aboutLabel.topAnchor.constraint(equalTo: fullNameTextField.bottomAnchor, constant: 30),
-			aboutLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30)
+			aboutLabel.topAnchor.constraint(equalTo: fullNameTextField.bottomAnchor,
+											constant: Layout.aboutLabelTopAnchor),
+			aboutLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,
+												constant: Layout.leadingAndTrailingAnchor)
 		])
 	}
 
@@ -111,9 +151,12 @@ private extension SetupProfileView {
 		aboutTextField.translatesAutoresizingMaskIntoConstraints = false
 
 		NSLayoutConstraint.activate([
-			aboutTextField.topAnchor.constraint(equalTo: aboutLabel.bottomAnchor, constant: 20),
-			aboutTextField.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30),
-			aboutTextField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -40)
+			aboutTextField.topAnchor.constraint(equalTo: aboutLabel.bottomAnchor,
+												constant: Layout.textFieldTopAnchor),
+			aboutTextField.leadingAnchor.constraint(equalTo: self.leadingAnchor,
+													constant: Layout.leadingAndTrailingAnchor),
+			aboutTextField.trailingAnchor.constraint(equalTo: self.trailingAnchor,
+													 constant: -Layout.leadingAndTrailingAnchor)
 		])
 	}
 
@@ -122,8 +165,10 @@ private extension SetupProfileView {
 		sexLabel.translatesAutoresizingMaskIntoConstraints = false
 
 		NSLayoutConstraint.activate([
-			sexLabel.topAnchor.constraint(equalTo: aboutTextField.bottomAnchor, constant: 20),
-			sexLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30)
+			sexLabel.topAnchor.constraint(equalTo: aboutTextField.bottomAnchor,
+										  constant: Layout.sexLabelTopAnchor),
+			sexLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,
+											  constant: Layout.leadingAndTrailingAnchor)
 		])
 	}
 
@@ -132,9 +177,12 @@ private extension SetupProfileView {
 		sexSegmentedControl.translatesAutoresizingMaskIntoConstraints = false
 
 		NSLayoutConstraint.activate([
-			sexSegmentedControl.topAnchor.constraint(equalTo: sexLabel.bottomAnchor, constant: 20),
-			sexSegmentedControl.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30),
-			sexSegmentedControl.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -30),
+			sexSegmentedControl.topAnchor.constraint(equalTo: sexLabel.bottomAnchor,
+													 constant: Layout.sexSegmentTopAnchor),
+			sexSegmentedControl.leadingAnchor.constraint(equalTo: self.leadingAnchor,
+														 constant: Layout.leadingAndTrailingAnchor),
+			sexSegmentedControl.trailingAnchor.constraint(equalTo: self.trailingAnchor,
+														  constant: -Layout.leadingAndTrailingAnchor),
 			sexSegmentedControl.centerXAnchor.constraint(equalTo: self.centerXAnchor)
 		])
 	}
@@ -144,9 +192,12 @@ private extension SetupProfileView {
 		comeinButton.translatesAutoresizingMaskIntoConstraints = false
 
 		NSLayoutConstraint.activate([
-			comeinButton.topAnchor.constraint(equalTo: sexSegmentedControl.bottomAnchor, constant: 50),
-			comeinButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30),
-			comeinButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -30)
+			comeinButton.topAnchor.constraint(equalTo: sexSegmentedControl.bottomAnchor,
+											  constant: Layout.comeInButtonTopAnchor),
+			comeinButton.leadingAnchor.constraint(equalTo: self.leadingAnchor,
+												  constant: Layout.leadingAndTrailingAnchor),
+			comeinButton.trailingAnchor.constraint(equalTo: self.trailingAnchor,
+												   constant: -Layout.leadingAndTrailingAnchor)
 
 		])
 	}

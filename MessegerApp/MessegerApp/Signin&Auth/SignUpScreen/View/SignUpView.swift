@@ -9,40 +9,61 @@ import UIKit
 
 final class SingUpView: UIView {
 
-//MARK: - View
+	//MARK: - Property
+
+	private enum Metrics {
+		static let helloLabelTitle: String = "Welcome!"
+		static let emailLabelTitle: String = "Email"
+		static let passwordLabelTitle: String = "Password"
+		static let confirmPasswordLabelTitle: String = "Confirm password"
+		static let loginTextLabel: String = "Already registered?"
+		static let signUpButtonTitle: String = "Sign up"
+		static let loginButtonTitle: String = "Login"
+
+		static let signUpButtonTitleColor: UIColor = .white
+		static let signUpButtonIsShadow: Bool = false
+		static let signUpButtonCornerRadius: CGFloat = 4
+	}
+
+	private enum Layout {
+		static let helloAndEmailLabelTopAnchor: CGFloat = 50
+		static let leadingAndTrailingAnchor: CGFloat = 30
+		static let labelTopAnchor: CGFloat = 20
+		static let loginButtonTopAnchor: CGFloat = 15
+		static let loginButtonLeadingAnchor: CGFloat = 15
+	}
+
+	//MARK: - View
 	
-	private let helloLabel = UILabel(text: "Welcome!",
+	private let helloLabel = UILabel(text: Metrics.helloLabelTitle,
 									 font: .avenirTitle())
 
-	private let emailLabel = UILabel(text: "Email")
-	private let passwordLabel = UILabel(text: "Password")
-	private let confirmPasswordLabel = UILabel(text: "Confirm pasword")
-	private let loginLabel = UILabel(text: "Already registered?")
+	private let emailLabel = UILabel(text: Metrics.emailLabelTitle)
+	private let passwordLabel = UILabel(text: Metrics.passwordLabelTitle)
+	private let confirmPasswordLabel = UILabel(text: Metrics.confirmPasswordLabelTitle)
+	private let loginLabel = UILabel(text: Metrics.loginTextLabel)
 
-	private let signUpButton = UIButton(title: "Sign up",
-										titleColor: .white,
-										backgroundColor: .buttonBlack(),
-										font: .avenirDefault(),
-										isShadow: false,
-										cornerRadius: 4)
+	let signUpButton = UIButton(title: Metrics.signUpButtonTitle,
+								titleColor: Metrics.signUpButtonTitleColor,
+								backgroundColor: .buttonBlack(),
+								font: .avenirDefault(),
+								isShadow: Metrics.signUpButtonIsShadow,
+								cornerRadius: Metrics.signUpButtonCornerRadius)
 
-	 let loginButton = UIButton(title: "Login",
-									   titleColor: .buttonRed(),
-									   font: .avenirDefault())
-	
+	let loginButton = UIButton(title: Metrics.loginButtonTitle,
+							   titleColor: .buttonRed(),
+							   font: .avenirDefault())
 
-	private let emailTextField = OneLineTextField(font: .avenirDefault())
-	private let passwordTextField = OneLineTextField(font: .avenirDefault())
-	private let confirmPasswordTextField = OneLineTextField(font: .avenirDefault())
+	let emailTextField = OneLineTextField(font: .avenirDefault())
+	let passwordTextField = OneLineTextField(font: .avenirDefault())
+	let confirmPasswordTextField = OneLineTextField(font: .avenirDefault())
 
-//MARK: - Init
+	//MARK: - Init
 
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		self.backgroundColor = .white
-
 		setupViewLayout()
-		setupActionButton()
 	}
 
 	required init?(coder: NSCoder) {
@@ -50,38 +71,7 @@ final class SingUpView: UIView {
 	}
 }
 
-private extension SingUpView {
-	func setupActionButton() {
-		signUpButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
-	}
-
-	@objc func signUpButtonTapped() {
-		AuthenticationService.shared.register(email: emailTextField.text, password: passwordTextField.text, confirmPassword: confirmPasswordTextField.text) { (result) in
-			switch result {
-
-			case .success(let user):
-				self.showAllertController(title: "Success!", message: "Are you resistered") {
-					self.findViewController()?.present(SetupProfileViewController(currentUser: user), animated: true, completion: nil)
-				}
-			case .failure(let error):
-				self.showAllertController(title: "Error!", message: error.localizedDescription)
-			}
-		}
-	}
-}
-
-//MARK: - Alert controller
-private extension SingUpView {
-	func showAllertController(title: String, message: String, completion: @escaping () -> Void = { }) {
-		let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-		let acceptAction = UIAlertAction(title: "Continue", style: .default) { (_) in
-			completion()
-		}
-		alertController.addAction(acceptAction)
-		findViewController()?.present(alertController, animated: true, completion: nil)
-
-	}
-}
+	//MARK: - Layout
 
 private extension SingUpView {
 	func setupViewLayout() {
@@ -102,10 +92,10 @@ private extension SingUpView {
 		helloLabel.translatesAutoresizingMaskIntoConstraints = false
 
 		NSLayoutConstraint.activate([
-			helloLabel.topAnchor.constraint(equalTo: self.topAnchor,
-											constant: 100),
-			helloLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor )
-			])
+			helloLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor,
+											constant: Layout.helloAndEmailLabelTopAnchor),
+			helloLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor)
+		])
 	}
 
 	func setupEmailLabel() {
@@ -113,8 +103,10 @@ private extension SingUpView {
 		emailLabel.translatesAutoresizingMaskIntoConstraints = false
 
 		NSLayoutConstraint.activate([
-			emailLabel.topAnchor.constraint(equalTo: helloLabel.bottomAnchor, constant: 100),
-			emailLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30)
+			emailLabel.topAnchor.constraint(equalTo: helloLabel.bottomAnchor,
+											constant: Layout.helloAndEmailLabelTopAnchor),
+			emailLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,
+												constant: Layout.leadingAndTrailingAnchor)
 		])
 	}
 
@@ -123,11 +115,12 @@ private extension SingUpView {
 		emailTextField.translatesAutoresizingMaskIntoConstraints = false
 
 		NSLayoutConstraint.activate([
-			emailTextField.topAnchor.constraint(equalTo: emailLabel.bottomAnchor, constant: 20),
-			emailTextField.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30),
-			emailTextField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -40),
-
-
+			emailTextField.topAnchor.constraint(equalTo: emailLabel.bottomAnchor,
+												constant: Layout.labelTopAnchor),
+			emailTextField.leadingAnchor.constraint(equalTo: self.leadingAnchor,
+													constant: Layout.leadingAndTrailingAnchor),
+			emailTextField.trailingAnchor.constraint(equalTo: self.trailingAnchor,
+													 constant: -Layout.leadingAndTrailingAnchor),
 		])
 	}
 
@@ -136,8 +129,10 @@ private extension SingUpView {
 		passwordLabel.translatesAutoresizingMaskIntoConstraints = false
 
 		NSLayoutConstraint.activate([
-			passwordLabel.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 30),
-			passwordLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30)
+			passwordLabel.topAnchor.constraint(equalTo: emailTextField.bottomAnchor,
+											   constant: Layout.labelTopAnchor),
+			passwordLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,
+												   constant: Layout.leadingAndTrailingAnchor)
 		])
 	}
 
@@ -146,10 +141,12 @@ private extension SingUpView {
 		passwordTextField.translatesAutoresizingMaskIntoConstraints = false
 
 		NSLayoutConstraint.activate([
-			passwordTextField.topAnchor.constraint(equalTo: passwordLabel.bottomAnchor, constant: 20),
-			passwordTextField.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30),
-			passwordTextField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -40),
-
+			passwordTextField.topAnchor.constraint(equalTo: passwordLabel.bottomAnchor,
+												   constant: Layout.labelTopAnchor),
+			passwordTextField.leadingAnchor.constraint(equalTo: self.leadingAnchor,
+													   constant: Layout.leadingAndTrailingAnchor),
+			passwordTextField.trailingAnchor.constraint(equalTo: self.trailingAnchor,
+														constant: -Layout.leadingAndTrailingAnchor),
 		])
 	}
 
@@ -158,8 +155,10 @@ private extension SingUpView {
 		confirmPasswordLabel.translatesAutoresizingMaskIntoConstraints = false
 
 		NSLayoutConstraint.activate([
-			confirmPasswordLabel.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 30),
-			confirmPasswordLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30)
+			confirmPasswordLabel.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor,
+													  constant: Layout.labelTopAnchor),
+			confirmPasswordLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,
+														  constant: Layout.leadingAndTrailingAnchor)
 		])
 
 	}
@@ -169,10 +168,12 @@ private extension SingUpView {
 		confirmPasswordTextField.translatesAutoresizingMaskIntoConstraints = false
 
 		NSLayoutConstraint.activate([
-			confirmPasswordTextField.topAnchor.constraint(equalTo: confirmPasswordLabel.bottomAnchor, constant: 20),
-			confirmPasswordTextField.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30),
-			confirmPasswordTextField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -40),
-
+			confirmPasswordTextField.topAnchor.constraint(equalTo: confirmPasswordLabel.bottomAnchor,
+														  constant: Layout.labelTopAnchor),
+			confirmPasswordTextField.leadingAnchor.constraint(equalTo: self.leadingAnchor,
+															  constant: Layout.leadingAndTrailingAnchor),
+			confirmPasswordTextField.trailingAnchor.constraint(equalTo: self.trailingAnchor,
+															   constant: -Layout.leadingAndTrailingAnchor),
 		])
 	}
 
@@ -182,13 +183,12 @@ private extension SingUpView {
 
 		NSLayoutConstraint.activate([
 			signUpButton.topAnchor.constraint(equalTo: confirmPasswordTextField.bottomAnchor,
-											constant: 30),
-
+											  constant: Layout.labelTopAnchor),
 			signUpButton.leadingAnchor.constraint(equalTo: self.leadingAnchor,
-												constant: 30),
+												  constant: Layout.leadingAndTrailingAnchor),
 			signUpButton.trailingAnchor.constraint(equalTo: self.trailingAnchor,
-												   constant: -30)
-			])
+												   constant: -Layout.leadingAndTrailingAnchor)
+		])
 	}
 
 	func setupLoginLabel() {
@@ -196,8 +196,10 @@ private extension SingUpView {
 		loginLabel.translatesAutoresizingMaskIntoConstraints = false
 
 		NSLayoutConstraint.activate([
-			loginLabel.topAnchor.constraint(equalTo: signUpButton.bottomAnchor, constant: 30),
-			loginLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30)
+			loginLabel.topAnchor.constraint(equalTo: signUpButton.bottomAnchor,
+											constant: Layout.labelTopAnchor),
+			loginLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,
+												constant: Layout.leadingAndTrailingAnchor)
 		])
 	}
 
@@ -206,8 +208,10 @@ private extension SingUpView {
 		loginButton.translatesAutoresizingMaskIntoConstraints = false
 
 		NSLayoutConstraint.activate([
-			loginButton.topAnchor.constraint(equalTo: signUpButton.bottomAnchor, constant: 24),
-			loginButton.leadingAnchor.constraint(equalTo: loginLabel.trailingAnchor, constant: 15)
+			loginButton.topAnchor.constraint(equalTo: signUpButton.bottomAnchor,
+											 constant: Layout.loginButtonTopAnchor),
+			loginButton.leadingAnchor.constraint(equalTo: loginLabel.trailingAnchor,
+												 constant: Layout.loginButtonLeadingAnchor)
 		])
 	}
 }

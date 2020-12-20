@@ -9,13 +9,26 @@ import UIKit
 
 final class MainTabBarController: UITabBarController {
 
+	//MARK: - Property
+
+	private enum Metrics {
+		static let peopleImageName: String = "person.2"
+		static let conversationImageName: String = "bubble.left.and.bubble.right"
+		static let oneTitleNavigationController: String = "People"
+		static let twoTitleNavigationController: String = "Messages"
+		static let defaultImageNavigationConroller: UIImage = #imageLiteral(resourceName: "queshion")
+
+	}
 	private let currentUser: MUser
+
+	//MARK: - Life Cycle
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setupTabBarController()
-
 	}
+
+	//MARK: - Init
 
 	init(currentUser: MUser) {
 		self.currentUser = currentUser
@@ -27,25 +40,25 @@ final class MainTabBarController: UITabBarController {
 	}
 }
 
-
-
 //MARK: - Setup TabBarController
 
 private extension MainTabBarController {
 	func setupTabBarController() {
 		let boldConfiguration = UIImage.SymbolConfiguration(weight: .medium)
-		let peopleImage = UIImage(systemName: "person.2", withConfiguration: boldConfiguration)
-		let conversationImage = UIImage(systemName: "bubble.left.and.bubble.right", withConfiguration: boldConfiguration)
-		tabBar.tintColor = #colorLiteral(red: 0.1215686277, green: 0.01176470611, blue: 0.4235294163, alpha: 1)
+		let peopleImage = UIImage(systemName: Metrics.peopleImageName,
+								  withConfiguration: boldConfiguration)
+		let conversationImage = UIImage(systemName: Metrics.conversationImageName,
+										withConfiguration: boldConfiguration)
+
+		tabBar.tintColor = .tabBarTintColor()
 
 		viewControllers = [
 		generateNavigationController(rootViewController: PeopleViewController(currentUser: currentUser),
-										 title: "People",
-										 image: peopleImage ?? #imageLiteral(resourceName: "queshion")),
+									 title: Metrics.oneTitleNavigationController,
+									 image: peopleImage ?? Metrics.defaultImageNavigationConroller),
 		generateNavigationController(rootViewController: ListViewController(currentUser: currentUser),
-									 title: "Conversation",
-									 image: conversationImage ?? #imageLiteral(resourceName: "queshion"))
-
+									 title: Metrics.twoTitleNavigationController,
+									 image: conversationImage ?? Metrics.defaultImageNavigationConroller)
 		]
 	}
 }

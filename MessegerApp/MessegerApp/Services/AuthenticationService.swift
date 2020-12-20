@@ -16,7 +16,6 @@ final class AuthenticationService {
 	
 	static let shared = AuthenticationService()
 	private let auth = Auth.auth()
-
 }
 
 	//MARK: - Login
@@ -38,7 +37,6 @@ extension AuthenticationService {
 		}
 	}
 }
-
 
 	//MARK: - Registered
 

@@ -20,9 +20,9 @@ extension AuthenticationError: LocalizedError {
 		switch self {
 
 		case .notFilled:
-			return NSLocalizedString("Fill in all the fields", comment: "")
+			return NSLocalizedString("Not all fields are filled", comment: "")
 		case .invalidEmail:
-			return NSLocalizedString("Invalid email format", comment: "")
+			return NSLocalizedString("Wrong format email", comment: "")
 		case .passwordsNotMatched:
 			return NSLocalizedString("Passwords do not match", comment: "")
 		case .unknownError:

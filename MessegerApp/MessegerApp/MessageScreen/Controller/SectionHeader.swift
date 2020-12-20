@@ -8,10 +8,15 @@
 import UIKit
 
 final class SectionHeader: UICollectionReusableView {
+	//MARK: - Property
 
 	static let reuseIdentifaer = String(describing: self)
+	
+	//MARK: - View
 
 	private let headerTitle = UILabel()
+
+	//MARK: - Init
 
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -22,20 +27,20 @@ final class SectionHeader: UICollectionReusableView {
 		fatalError("init(coder:) has not been implemented")
 	}
 }
+	//MARK: - Configure
 
 extension SectionHeader {
 	func configure(text: String , font: UIFont? , textColor: UIColor) {
 		headerTitle.text = text
 		headerTitle.font = font
 		headerTitle.textColor = textColor
-		
 	}
 }
+	//MARK: - Layout
 
 private extension SectionHeader {
 	func setupViewLayout() {
 		setupHeaderTitle()
-
 	}
 
 	func setupHeaderTitle() {

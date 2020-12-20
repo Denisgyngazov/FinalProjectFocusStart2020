@@ -1,39 +1,17 @@
 //
-//  ChatRequestViewController.swift
+//  ChatRequestView.swift
 //  MessegerApp
 //
-//  Created by Денис Гынгазов on 16.12.2020.
+//  Created by Денис Гынгазов on 20.12.2020.
 //
 
 import UIKit
 
-final class ChatRequestViewController: UIViewController {
+final class ChatRequestView: UIView {
 
-	private let containerView = UIView()
-	private let imageVIew = UIImageView(image: #imageLiteral(resourceName: "avatar"), contentMode: .scaleAspectFill)
-	private let nameLabel = UILabel(text: "Peter", font: .systemFont(ofSize: 28, weight: .light))
-	private let aboutLabel = UILabel(text: "Yoy hahe the opportunity to start a new chat", font: .systemFont(ofSize: 16, weight: .light))
-	private let cancelButton = UIButton(title: Metrics.cancelTitle,
-								   titleColor: Metrics.cancelTitleColor,
-								   backgroundColor: Metrics.cancelBackgroundColor,
-								   font: Metrics.cancelFont,
-								   isShadow: Metrics.cancelIsShadow,
-								   cornerRadius: Metrics.cancelCornerRadius)
-
-	private let acceptButton = UIButton(title: Metrics.aceptTitle,
-								   titleColor: Metrics.aceptTitleColor,
-								   backgroundColor: Metrics.aceptBackgroundColor,
-								   font: Metrics.aceptFont,
-								   isShadow: Metrics.aceptIsShadow,
-								   cornerRadius: Metrics.aceptCornerRadius)
-
-	private var chat: Message
-	weak var delegate: WaitingChatDelegate?
+	//MARK: - Property
 
 	private enum Metrics {
-
-//MARK: - Button propertys
-
 		static let cancelTitle: String = "Cancel"
 		static let cancelTitleColor: UIColor = .buttonRed()
 		static let cancelFont: UIFont? = .avenirDefault()
@@ -48,49 +26,42 @@ final class ChatRequestViewController: UIViewController {
 		static let aceptIsShadow: Bool = false
 		static let aceptCornerRadius: CGFloat = 10
 	}
+	
+	//MARK: - View
 
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		view.backgroundColor = .blue
+	private let containerView = UIView()
+	 let imageView = UIImageView(image: #imageLiteral(resourceName: "avatar"), contentMode: .scaleAspectFill)
+	 let nameLabel = UILabel(text: "", font: .systemFont(ofSize: 28, weight: .light))
+	private let aboutLabel = UILabel(text: "", font: .systemFont(ofSize: 16, weight: .light))
+	 let cancelButton = UIButton(title: Metrics.cancelTitle,
+								   titleColor: Metrics.cancelTitleColor,
+								   backgroundColor: Metrics.cancelBackgroundColor,
+								   font: Metrics.cancelFont,
+								   isShadow: Metrics.cancelIsShadow,
+								   cornerRadius: Metrics.cancelCornerRadius)
+
+	 let acceptButton = UIButton(title: Metrics.aceptTitle,
+								   titleColor: Metrics.aceptTitleColor,
+								   backgroundColor: Metrics.aceptBackgroundColor,
+								   font: Metrics.aceptFont,
+								   isShadow: Metrics.aceptIsShadow,
+								   cornerRadius: Metrics.aceptCornerRadius)
+
+	//MARK: - Init
+
+	override init(frame: CGRect) {
+		super.init(frame: frame)
 		setupViewApperance()
 		setupViewLayout()
-		setupActionButton()
 	}
 
-	init(chat: Message) {
-		self.chat = chat
-		nameLabel.text = chat.friendUsername
-		imageVIew.sd_setImage(with: URL(string: chat.friendUserImageString), completed: nil)
-		super.init(nibName: nil, bundle: nil)
-	}
-	
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-	
 }
-//MARK: - Setup action button
+	//MARK: - Apperance
 
-private extension ChatRequestViewController {
-	func setupActionButton() {
-		cancelButton.addTarget(self, action: #selector(setupCancelTapped), for: .touchUpInside)
-		acceptButton.addTarget(self, action: #selector(setupActionTapped), for: .touchUpInside)
-
-	}
-
-	@objc func setupCancelTapped() {
-		self.dismiss(animated: true) {
-			self.delegate?.removeWaitingChat(chat: self.chat)
-		}
-	}
-	@objc func setupActionTapped() {
-		self.dismiss(animated: true) {
-			self.delegate?.chatToActive(chat: self.chat)
-		}
-	}
-}
-
-private extension ChatRequestViewController {
+private extension ChatRequestView {
 	func setupViewApperance() {
 		setupContainerViewApperance()
 		setupAboutLabelApperance()
@@ -112,8 +83,9 @@ private extension ChatRequestViewController {
 	}
 }
 
+//MARK: - Layout
 
-private extension ChatRequestViewController {
+private extension ChatRequestView {
 	func setupViewLayout() {
 		setupContainerView()
 		setupImageView()
@@ -121,34 +93,30 @@ private extension ChatRequestViewController {
 		setupAboutLabel()
 		setupCancelButton()
 		setupAcceptButton()
-
 	}
 
 	func setupContainerView() {
-		view.addSubview(containerView)
+		self.addSubview(containerView)
 		containerView.translatesAutoresizingMaskIntoConstraints = false
 
 		NSLayoutConstraint.activate([
-			containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-			containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-			containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+			containerView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+			containerView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+			containerView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
 			containerView.heightAnchor.constraint(equalToConstant: 205)
 		])
-
 	}
 
 	func setupImageView() {
-		view.addSubview(imageVIew)
-		imageVIew.translatesAutoresizingMaskIntoConstraints = false
+		self.addSubview(imageView)
+		imageView.translatesAutoresizingMaskIntoConstraints = false
 
 		NSLayoutConstraint.activate([
-			imageVIew.topAnchor.constraint(equalTo: view.topAnchor),
-			imageVIew.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-			imageVIew.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-			imageVIew.bottomAnchor.constraint(equalTo: containerView.topAnchor, constant: 30)
-
+			imageView.topAnchor.constraint(equalTo: self.topAnchor),
+			imageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+			imageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+			imageView.bottomAnchor.constraint(equalTo: containerView.topAnchor, constant: 30)
 		])
-
 	}
 
 	func setupNameLabel() {
@@ -159,10 +127,7 @@ private extension ChatRequestViewController {
 			nameLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 35),
 			nameLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 25),
 			nameLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -25)
-
-
 		])
-
 	}
 
 	func setupAboutLabel() {

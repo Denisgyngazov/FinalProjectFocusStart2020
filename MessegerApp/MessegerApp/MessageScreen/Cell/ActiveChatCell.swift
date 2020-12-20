@@ -9,11 +9,34 @@ import UIKit
 
 final class ActiveChatCell: UICollectionViewCell {
 
+	//MARK: - Property
+
+	private enum Metrics {
+		static let cellCornerRadius: CGFloat = 4
+		static let cellClipsToBounds: Bool = true
+		static let friendName: String = ""
+		static let lastMessage: String = ""
+	}
+
+	private enum Layout {
+		static let friendImageViewWidth: CGFloat = 74
+		static let friendImageViewHeight: CGFloat = 74
+		static let gradientViewHeight: CGFloat = 74
+		static let gradientViewWidth: CGFloat = 8
+		static let topAndBottomAnchor: CGFloat = 12
+		static let leadingAndTrailingAnchor: CGFloat = 16
+
+	}
 
 	private let friendImageView = UIImageView()
-	private let friendName = UILabel(text: "User", font: .laoSangam20())
-	private let lastMessage = UILabel(text: "How are you?", font: .laoSangam18())
-	private let gradientView = GradientView(from: .topTrailing, to: .bottomTrailing, startColor: #colorLiteral(red: 0.7882352941, green: 0.631372549, blue: 0.9411764706, alpha: 1), endColor: #colorLiteral(red: 0.4784313725, green: 0.6980392157, blue: 0.9215686275, alpha: 1))
+	private let friendName = UILabel(text: Metrics.friendName,
+									 font: .laoSangam20())
+	private let lastMessage = UILabel(text: Metrics.lastMessage,
+									  font: .laoSangam18())
+	private let gradientView = GradientView(from: .topTrailing,
+											to: .bottomTrailing,
+											startColor: .startColorGradient(),
+											endColor: .endColorGradient())
 
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -28,21 +51,21 @@ final class ActiveChatCell: UICollectionViewCell {
 }
 
 extension ActiveChatCell: ConfigureCell {
+
+	static var identifaer = String(describing: self)
+
 	func configure<U>(with value: U) where U : Hashable {
 		guard let message: Message = value as? Message else { return }
 		friendImageView.sd_setImage(with: URL(string: message.friendUserImageString), completed: nil)
 		friendName.text = message.friendUsername
 		lastMessage.text = message.lastMessage
 	}
-
-	static var identifaer = String(describing: self)
-
 }
 
 private extension ActiveChatCell {
 	func setupCellApperance() {
-		self.layer.cornerRadius = 4
-		self.clipsToBounds = true
+		self.layer.cornerRadius = Metrics.cellCornerRadius
+		self.clipsToBounds = Metrics.cellClipsToBounds
 	}
 }
 
@@ -52,34 +75,30 @@ private extension ActiveChatCell {
 		setupGradiendView()
 		setupFreindName()
 		setupLastImageView()
-
 	}
 
 	func setupFriendImageView() {
 		self.addSubview(friendImageView)
 		friendImageView.translatesAutoresizingMaskIntoConstraints = false
-		friendImageView.backgroundColor = .white
 
 		NSLayoutConstraint.activate([
 			friendImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
 			friendImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-			friendImageView.heightAnchor.constraint(equalToConstant: 74),
-			friendImageView.widthAnchor.constraint(equalToConstant: 74)
-
+			friendImageView.heightAnchor.constraint(equalToConstant: Layout.friendImageViewHeight),
+			friendImageView.widthAnchor.constraint(equalToConstant: Layout.friendImageViewWidth)
 		])
 	}
 
 	func setupGradiendView() {
 		self.addSubview(gradientView)
 		gradientView.translatesAutoresizingMaskIntoConstraints = false
-		gradientView.backgroundColor = .black
+
 		NSLayoutConstraint.activate([
 			gradientView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
 			gradientView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-			gradientView.heightAnchor.constraint(equalToConstant: 74),
-			gradientView.widthAnchor.constraint(equalToConstant: 8)
+			gradientView.heightAnchor.constraint(equalToConstant: Layout.gradientViewHeight),
+			gradientView.widthAnchor.constraint(equalToConstant: Layout.gradientViewWidth)
 		])
-
 	}
 
 	func setupFreindName() {
@@ -87,9 +106,12 @@ private extension ActiveChatCell {
 		friendName.translatesAutoresizingMaskIntoConstraints = false
 
 		NSLayoutConstraint.activate([
-			friendName.topAnchor.constraint(equalTo: self.topAnchor, constant: 12),
-			friendName.leadingAnchor.constraint(equalTo: friendImageView.trailingAnchor, constant: 16),
-			friendName.trailingAnchor.constraint(equalTo: gradientView.leadingAnchor, constant: 16)
+			friendName.topAnchor.constraint(equalTo: self.topAnchor,
+											constant: Layout.topAndBottomAnchor),
+			friendName.leadingAnchor.constraint(equalTo: friendImageView.trailingAnchor,
+												constant: Layout.leadingAndTrailingAnchor),
+			friendName.trailingAnchor.constraint(equalTo: gradientView.leadingAnchor,
+												 constant: Layout.leadingAndTrailingAnchor)
 		])
 	}
 
@@ -98,9 +120,12 @@ private extension ActiveChatCell {
 		lastMessage.translatesAutoresizingMaskIntoConstraints = false
 
 		NSLayoutConstraint.activate([
-			lastMessage.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -12),
-			lastMessage.leadingAnchor.constraint(equalTo: friendImageView.trailingAnchor, constant: 16),
-			lastMessage.trailingAnchor.constraint(equalTo: gradientView.leadingAnchor, constant: 16)
+			lastMessage.bottomAnchor.constraint(equalTo: self.bottomAnchor,
+												constant: -Layout.topAndBottomAnchor),
+			lastMessage.leadingAnchor.constraint(equalTo: friendImageView.trailingAnchor,
+												 constant: Layout.leadingAndTrailingAnchor),
+			lastMessage.trailingAnchor.constraint(equalTo: gradientView.leadingAnchor,
+												  constant: Layout.leadingAndTrailingAnchor)
 		])
 	}
 }

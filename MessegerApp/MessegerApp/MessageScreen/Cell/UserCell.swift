@@ -10,9 +10,35 @@ import SDWebImage
 
 final class UserCell: UICollectionViewCell {
 
+	//MARK: - Property
+
+	private enum Metrics {
+		static let shadowColorCell: CGColor = #colorLiteral(red: 0.7411764706, green: 0.7411764706, blue: 0.7411764706, alpha: 1)
+		static let shadowRadiusCell: CGFloat = 4
+		static let shadowOpacityCell: Float = 0.5
+		static let shadowOffSetWidth: Int = 0
+		static let shadowOffSetHeight: Int = 4
+
+		static let cornerRadiusLayoutSubview: CGFloat = 15
+		static let clipsToBoundsLayoutSubview: Bool = true
+
+		static let userNameText: String = ""
+
+	}
+
+	private enum Layout {
+		static let userImageViewHeight: CGFloat = 40
+		static let userNameLeadingAndTrailing: CGFloat = 8
+	}
+
+	//MARK: - View
+
 	private let userImageView = UIImageView()
-	private let userName = UILabel(text: "textgfdgdfgdfgdfgdfgdfgd", font: .laoSangam20())
+	private let userName = UILabel(text: Metrics.userNameText,
+								   font: .laoSangam20())
 	private let view = UIView()
+
+	//MARK: - Init
 
 	override init(frame: CGRect ) {
 		super.init(frame: frame)
@@ -21,19 +47,17 @@ final class UserCell: UICollectionViewCell {
 		setupViewLayout()
 	}
 
-
-
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-
 }
+	//MARK: - Ovveride layoutSubviews
 
 extension UserCell {
 	override func layoutSubviews() {
 		super.layoutSubviews()
-		self.view.layer.cornerRadius = 15
-		self.view.clipsToBounds = true
+		self.view.layer.cornerRadius = Metrics.cornerRadiusLayoutSubview
+		self.view.clipsToBounds = Metrics.clipsToBoundsLayoutSubview
 	}
 
 	override func prepareForReuse() {
@@ -41,17 +65,21 @@ extension UserCell {
 	}
 }
 
+	//MARK: - Cell configure
+
 extension UserCell: ConfigureCell {
+
+	static var identifaer = String(describing: self)
+
 	func configure<U>(with value: U) where U : Hashable {
 		guard let user: MUser = value as? MUser else { return }
 		userName.text = user.username
 		guard let url = URL(string: user.avatarStringURL) else { return }
 		userImageView.sd_setImage(with: url, completed: nil)
-
 	}
-
-	static var identifaer = String(describing: self)
 }
+
+	//MARK: - Setup View cell
 
 private extension UserCell {
 	func setupViewCell() {
@@ -59,12 +87,15 @@ private extension UserCell {
 	}
 
 	func setupShadowCell() {
-		self.layer.shadowColor = #colorLiteral(red: 0.7411764706, green: 0.7411764706, blue: 0.7411764706, alpha: 1)
-		self.layer.shadowRadius = 4
-		self.layer.shadowOpacity = 0.5
-		self.layer.shadowOffset = CGSize(width: 0, height: 4)
+		self.layer.shadowColor = Metrics.shadowColorCell
+		self.layer.shadowRadius = Metrics.shadowRadiusCell
+		self.layer.shadowOpacity = Metrics.shadowOpacityCell
+		self.layer.shadowOffset = CGSize(width: Metrics.shadowOffSetWidth,
+										 height: Metrics.shadowOffSetHeight)
 	}
 }
+
+	//MARK: - Layout
 
 private extension UserCell {
 	func setupViewLayout() {
@@ -82,7 +113,6 @@ private extension UserCell {
 			view.leadingAnchor.constraint(equalTo: self.leadingAnchor),
 			view.trailingAnchor.constraint(equalTo: self.trailingAnchor),
 			view.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-
 		])
 	}
 
@@ -94,11 +124,9 @@ private extension UserCell {
 			userImageView.topAnchor.constraint(equalTo: view.topAnchor),
 			userImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
 			userImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-			userImageView.heightAnchor.constraint(equalTo: view.widthAnchor, constant: -40)
-
-
+			userImageView.heightAnchor.constraint(equalTo: view.widthAnchor,
+												  constant: -Layout.userImageViewHeight)
 		])
-
 	}
 
 	func setupUserName() {
@@ -107,11 +135,12 @@ private extension UserCell {
 
 		NSLayoutConstraint.activate([
 			userName.topAnchor.constraint(equalTo: userImageView.bottomAnchor),
-			userName.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
-			userName.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
+			userName.leadingAnchor.constraint(equalTo: view.leadingAnchor,
+											  constant: Layout.userNameLeadingAndTrailing),
+			userName.trailingAnchor.constraint(equalTo: view.trailingAnchor,
+											   constant: -Layout.userNameLeadingAndTrailing),
 			userName.bottomAnchor.constraint(equalTo: view.bottomAnchor)
 
 		])
 	}
-
 }

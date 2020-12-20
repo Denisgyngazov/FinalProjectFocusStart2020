@@ -10,6 +10,9 @@ import FirebaseAuth
 import FirebaseFirestore
 
 final class ListenerService {
+	
+	//MARK: - Property
+
 	static let shared = ListenerService()
 
 	private let database = Firestore.firestore()
@@ -24,7 +27,7 @@ final class ListenerService {
 	}
 }
 
-//MARK: - Observer waiting chat
+	//MARK: - Observer waiting chat
 
 extension ListenerService {
 	func waitingChatsObserve(chats: [Message], completion: @escaping (Result<[Message], Error>) -> Void) -> ListenerRegistration? {
@@ -55,13 +58,11 @@ extension ListenerService {
 			}
 			completion(.success(chats))
 		}
-
 		return chatsListener
-
 	}
 }
 
-//MARK: - Observer active chat
+	//MARK: - Observer active chat
 
 extension ListenerService {
 	func activeChatsObserve(chats: [Message], completion: @escaping (Result<[Message], Error>) -> Void) -> ListenerRegistration? {
@@ -92,14 +93,12 @@ extension ListenerService {
 			}
 			completion(.success(chats))
 		}
-
 		return chatsListener
-
 	}
 
 }
 
-//MARK: - Observer user
+	//MARK: - Observer user
 
 extension ListenerService {
 	func usersObserve(users: [MUser], completion: @escaping (Result<[MUser], Error>) -> Void) -> ListenerRegistration? {

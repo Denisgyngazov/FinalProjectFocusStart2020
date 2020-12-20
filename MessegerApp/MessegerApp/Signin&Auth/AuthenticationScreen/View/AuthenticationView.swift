@@ -9,40 +9,13 @@ import UIKit
 
 final class AuthenticationView: UIView {
 
- //MARK: - View
-
-	private let logoLabel = UILabel (text: "Messenger", font: .avenirTitle())
-	private let googleLabel = UILabel(text: "Get started with")
-	private let emailLabel = UILabel(text: "Or sign up with")
-	private let logindLabel = UILabel(text: "Already registered?")
-	private let logoImageView = UIImageView(image: #imageLiteral(resourceName: "logo"), contentMode: .scaleAspectFit)
-
-	 let emailButton = UIButton(title: Metrics.emailTitle,
-								   titleColor: Metrics.emailTitleColor,
-								   backgroundColor: Metrics.emailBackgroundColor,
-								   font: Metrics.emailFont,
-								   isShadow: Metrics.emailIsShadow,
-								   cornerRadius: Metrics.emailCornerRadius)
-
-	 let loginButton = UIButton(title: Metrics.loginTitle,
-								   titleColor: Metrics.loginTitleColor,
-								   backgroundColor: Metrics.loginBackgroundColor,
-								   font: Metrics.loginFont,
-								   isShadow: Metrics.loginIsShadow,
-								   cornerRadius: Metrics.loginCornerRadius)
-
-	 let googleButton = UIButton(title: Metrics.googleTitle,
-								   titleColor: Metrics.googleTitleColor,
-								   backgroundColor: Metrics.googleBackgroundColor,
-								   font: Metrics.googleFont,
-								   isShadow: Metrics.googleIsShadow,
-								   cornerRadius: Metrics.googleCornerRadius)
-
-//MARK: - Property
-
 	private enum Metrics {
+		static let logoLabelText: String = "Messenger"
+		static let googleLabelText: String = "Get started with"
+		static let emailLabelText: String = "Or sign up with"
+		static let loginLableText: String = "Already registered?"
+		static let logoImageView: UIImage = #imageLiteral(resourceName: "logo")
 
-//MARK: - Button propertys
 
 		static let emailTitle: String = "Email"
 		static let emailTitleColor: UIColor = .white
@@ -65,28 +38,57 @@ final class AuthenticationView: UIView {
 		static let googleIsShadow: Bool = true
 		static let googleCornerRadius: CGFloat = 4
 
-//MARK: - Layout propertys
-
-		static let logoImageViewTopAnchor: CGFloat = 160
+	}
+	private enum Layout {
+		static let logoImageViewTopAnchor: CGFloat = 50
 		static let logoImageViewWidthAnchor: CGFloat = 50
 		static let logoImageViewHeighthAnchor: CGFloat = 50
 		static let logoImageViewCenterXAnchor: CGFloat = 70
 
-		static let logoLabelTopAnchor: CGFloat = 170
+		static let logoLabelTopAnchor: CGFloat = 60
 		static let logoLabelTrailingAnchor: CGFloat = 40
 
-		static let googleLabelTopAnchor: CGFloat = 100
-		static let googleLabelLeadingAnchor: CGFloat = 30
 		static let buttonTopAnchor: CGFloat = 20
 		static let buttonleadingAndTrailingAnchor: CGFloat = 30
 		static let buttonHeightAnchor: CGFloat = 50
 
-		static let otherLabelTopAnchor: CGFloat = 50
-		static let otherLabelLeadingAnchor: CGFloat = 30
+		static let labelTopAnchor: CGFloat = 50
+		static let labelLeadingAnchor: CGFloat = 30
 
 	}
 
-//MARK: - Init
+	//MARK: - View
+
+	private let logoLabel = UILabel (text: Metrics.logoLabelText,
+									 font: .avenirTitle())
+	private let googleLabel = UILabel(text: Metrics.googleLabelText)
+	private let emailLabel = UILabel(text: Metrics.emailLabelText)
+	private let logindLabel = UILabel(text: Metrics.loginLableText)
+	private let logoImageView = UIImageView(image: Metrics.logoImageView,
+											contentMode: .scaleAspectFit)
+
+	let emailButton = UIButton(title: Metrics.emailTitle,
+							   titleColor: Metrics.emailTitleColor,
+							   backgroundColor: Metrics.emailBackgroundColor,
+							   font: Metrics.emailFont,
+							   isShadow: Metrics.emailIsShadow,
+							   cornerRadius: Metrics.emailCornerRadius)
+
+	let loginButton = UIButton(title: Metrics.loginTitle,
+							   titleColor: Metrics.loginTitleColor,
+							   backgroundColor: Metrics.loginBackgroundColor,
+							   font: Metrics.loginFont,
+							   isShadow: Metrics.loginIsShadow,
+							   cornerRadius: Metrics.loginCornerRadius)
+
+	let googleButton = UIButton(title: Metrics.googleTitle,
+								titleColor: Metrics.googleTitleColor,
+								backgroundColor: Metrics.googleBackgroundColor,
+								font: Metrics.googleFont,
+								isShadow: Metrics.googleIsShadow,
+								cornerRadius: Metrics.googleCornerRadius)
+
+	//MARK: - Init
 
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -102,7 +104,7 @@ final class AuthenticationView: UIView {
 	}
 }
 
-//MARK: - Setup Google image
+	//MARK: - Setup Google image
 
 private extension AuthenticationView {
 	func setupGoogleImage() {
@@ -110,7 +112,7 @@ private extension AuthenticationView {
 	}
 }
 
-//MARK: - Layout
+	//MARK: - Layout
 
 private extension AuthenticationView {
 	func setupViewLayout() {
@@ -129,12 +131,12 @@ private extension AuthenticationView {
 		logoImageView.translatesAutoresizingMaskIntoConstraints = false
 
 		NSLayoutConstraint.activate([
-			logoImageView.topAnchor.constraint(equalTo: self.topAnchor,
-											   constant: Metrics.logoImageViewTopAnchor),
+			logoImageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor,
+											   constant: Layout.logoImageViewTopAnchor),
 			logoImageView.centerXAnchor.constraint(equalTo: self.centerXAnchor,
-												   constant: Metrics.logoImageViewCenterXAnchor),
-			logoImageView.widthAnchor.constraint(equalToConstant: Metrics.logoImageViewWidthAnchor),
-			logoImageView.heightAnchor.constraint(equalToConstant: Metrics.logoImageViewHeighthAnchor)
+												   constant: Layout.logoImageViewCenterXAnchor),
+			logoImageView.widthAnchor.constraint(equalToConstant: Layout.logoImageViewWidthAnchor),
+			logoImageView.heightAnchor.constraint(equalToConstant: Layout.logoImageViewHeighthAnchor)
 		])
 	}
 
@@ -143,10 +145,10 @@ private extension AuthenticationView {
 		logoLabel.translatesAutoresizingMaskIntoConstraints = false
 
 		NSLayoutConstraint.activate([
-			logoLabel.topAnchor.constraint(equalTo: self.topAnchor,
-										   constant: Metrics.logoLabelTopAnchor),
+			logoLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor,
+										   constant: Layout.logoLabelTopAnchor),
 			logoLabel.trailingAnchor.constraint(equalTo: logoImageView.centerXAnchor,
-												constant: -Metrics.logoLabelTrailingAnchor)
+												constant: -Layout.logoLabelTrailingAnchor)
 		])
 	}
 
@@ -155,9 +157,9 @@ private extension AuthenticationView {
 		googleLabel.translatesAutoresizingMaskIntoConstraints = false
 		NSLayoutConstraint.activate([
 			googleLabel.topAnchor.constraint(equalTo: logoLabel.bottomAnchor,
-											 constant: Metrics.googleLabelTopAnchor),
+											 constant: Layout.labelTopAnchor),
 			googleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,
-												 constant: Metrics.googleLabelLeadingAnchor)
+												 constant: Layout.labelLeadingAnchor)
 		])
 	}
 
@@ -166,11 +168,11 @@ private extension AuthenticationView {
 		googleButton.translatesAutoresizingMaskIntoConstraints = false
 		NSLayoutConstraint.activate([
 			googleButton.topAnchor.constraint(equalTo: googleLabel.bottomAnchor,
-											  constant: Metrics.buttonTopAnchor),
+											  constant: Layout.buttonTopAnchor),
 			googleButton.leadingAnchor.constraint(equalTo: self.leadingAnchor,
-												  constant: Metrics.buttonleadingAndTrailingAnchor),
+												  constant: Layout.buttonleadingAndTrailingAnchor),
 			googleButton.trailingAnchor.constraint(equalTo: self.trailingAnchor,
-												   constant: -Metrics.buttonleadingAndTrailingAnchor),
+												   constant: -Layout.buttonleadingAndTrailingAnchor),
 		])
 	}
 
@@ -179,9 +181,9 @@ private extension AuthenticationView {
 		emailLabel.translatesAutoresizingMaskIntoConstraints = false
 		NSLayoutConstraint.activate([
 			emailLabel.topAnchor.constraint(equalTo: googleButton.bottomAnchor,
-											constant: Metrics.otherLabelTopAnchor),
+											constant: Layout.labelTopAnchor),
 			emailLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,
-												constant: Metrics.otherLabelLeadingAnchor),
+												constant: Layout.labelLeadingAnchor),
 		])
 	}
 
@@ -190,11 +192,11 @@ private extension AuthenticationView {
 		emailButton.translatesAutoresizingMaskIntoConstraints = false
 		NSLayoutConstraint.activate([
 			emailButton.topAnchor.constraint(equalTo: emailLabel.bottomAnchor,
-											 constant: Metrics.buttonTopAnchor),
+											 constant: Layout.buttonTopAnchor),
 			emailButton.leadingAnchor.constraint(equalTo: self.leadingAnchor,
-												 constant: Metrics.buttonleadingAndTrailingAnchor),
+												 constant: Layout.buttonleadingAndTrailingAnchor),
 			emailButton.trailingAnchor.constraint(equalTo: self.trailingAnchor,
-												  constant: -Metrics.buttonleadingAndTrailingAnchor),
+												  constant: -Layout.buttonleadingAndTrailingAnchor),
 		])
 	}
 
@@ -203,9 +205,9 @@ private extension AuthenticationView {
 		logindLabel.translatesAutoresizingMaskIntoConstraints = false
 		NSLayoutConstraint.activate([
 			logindLabel.topAnchor.constraint(equalTo: emailButton.bottomAnchor,
-													 constant: Metrics.otherLabelTopAnchor),
+											 constant: Layout.labelTopAnchor),
 			logindLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,
-														 constant: Metrics.otherLabelLeadingAnchor)
+												 constant: Layout.labelLeadingAnchor)
 		])
 	}
 
@@ -214,13 +216,11 @@ private extension AuthenticationView {
 		loginButton.translatesAutoresizingMaskIntoConstraints = false
 		NSLayoutConstraint.activate([
 			loginButton.topAnchor.constraint(equalTo: logindLabel.bottomAnchor,
-											 constant: Metrics.buttonTopAnchor),
+											 constant: Layout.buttonTopAnchor),
 			loginButton.leadingAnchor.constraint(equalTo: self.leadingAnchor,
-												 constant: Metrics.buttonleadingAndTrailingAnchor),
+												 constant: Layout.buttonleadingAndTrailingAnchor),
 			loginButton.trailingAnchor.constraint(equalTo: self.trailingAnchor,
-												  constant: -Metrics.buttonleadingAndTrailingAnchor),
+												  constant: -Layout.buttonleadingAndTrailingAnchor),
 		])
 	}
 }
-
-

@@ -16,6 +16,7 @@ extension UIViewController {
 		cell.configure(with: value)
 		return cell
 	}
+
 	//MARK: - AllertController
 	
 		func showAllertController(title: String, message: String, completion: @escaping () -> Void = { }) {
@@ -25,5 +26,16 @@ extension UIViewController {
 			}
 			alertController.addAction(acceptAction)
 			present(alertController, animated: true, completion: nil)
+	}
+	
+	//MARK: - SearchBar
+
+	func setupSearchBar() {
+		let searchController = UISearchController(searchResultsController: nil)
+		navigationItem.searchController = searchController
+		navigationItem.hidesSearchBarWhenScrolling = false
+		searchController.obscuresBackgroundDuringPresentation = false
+		navigationController?.navigationBar.barTintColor = .mainWhite()
+		navigationController?.navigationBar.shadowImage = UIImage()
 	}
 }

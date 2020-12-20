@@ -43,8 +43,5 @@ final class StorageService {
 				completion(.success(downloadURL))
 			}
 		}
-
-
-		
 	}
 }

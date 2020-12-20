@@ -11,22 +11,62 @@ import FirebaseFirestore
 
 final class PeopleViewController: UIViewController {
 
+	//MARK: - Property
+
+	private enum Layout {
+		static let interSectionSpacing: CGFloat = 20
+		static let userSectionInterGroupSpacing: CGFloat = 15
+		static let userSectionInsertItemSpacing: CGFloat = 15
+		static let countGroup = 2
+
+		static let fractionalWidth: NSCollectionLayoutDimension = .fractionalWidth(1)
+		static let sectionHeaderSizeHeightDimension: NSCollectionLayoutDimension = .estimated(1)
+		static let fractionalHeight: NSCollectionLayoutDimension = .fractionalHeight(1)
+		static let groupSizewidthDimension: NSCollectionLayoutDimension = .fractionalWidth(1.0)
+		static let groupSizeHeightDimension: NSCollectionLayoutDimension = .fractionalWidth(0.5)
+
+		static let contentInsetsTop: CGFloat = 16
+		static let contentInsetsLeading: CGFloat = 15
+		static let contentInsetsBottom: CGFloat = 0
+		static let contentInsetsTrailing: CGFloat = 15
+	}
+
+	private enum Metrics {
+		static let rightBarButtonItemTitle: String = "Log out"
+		static let alertControllerMessage: String = "Do you really want to leave?"
+		static let oneAlertActionTitle: String = "Cancel"
+		static let twoAlertActionTitle: String = "Log out"
+
+	}
+
+
+	private enum Section: Int, CaseIterable {
+		case users
+
+		func description(usersCount: Int) -> String {
+			switch self {
+
+			case .users:
+				return "\(usersCount) people nearby"
+			}
+		}
+	}
+
 	private var usersListener: ListenerRegistration?
 	private let currentUser: MUser
 	private var users = [MUser]()
 	private var collectionView: UICollectionView!
 	private var dataSource: UICollectionViewDiffableDataSource<Section, MUser>?
 
+	//MARK: - Life Cycle
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		view.backgroundColor = .blue
 		setupSearchBar()
 		setupCollectionView()
 		setupDataSource()
 		setupUsersListener()
-
-		navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Log out", style: .plain, target: self, action: #selector(signOut))
-
+		setupSignOutAction()
 	}
 
 	init(currentUser: MUser) {
@@ -41,33 +81,6 @@ final class PeopleViewController: UIViewController {
 
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
-	}
-
-	@objc private func signOut() {
-		let allertController = UIAlertController(title: nil, message: "Are you sure you want to sign out?", preferredStyle: .alert)
-		allertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-		allertController.addAction((UIAlertAction(title: "Sign out", style: .destructive, handler: { (_) in
-			do {
-				try Auth.auth().signOut()
-				
-				UIApplication.shared.keyWindow?.rootViewController = AuthenticationViewController()
-			} catch {
-				print("Error signing out: \(error.localizedDescription)")
-			}
-		})))
-		present(allertController, animated: true, completion: nil)
-	}
-
-	private enum Section: Int, CaseIterable {
-		case users
-
-		func description(usersCount: Int) -> String {
-			switch self {
-
-			case .users:
-				return "\(usersCount) people nearby"
-			}
-		}
 	}
 }
 
@@ -99,6 +112,7 @@ extension PeopleViewController {
 	}
 }
 
+
 //MARK: - Delegate search bar
 
 extension PeopleViewController: UISearchBarDelegate {
@@ -106,7 +120,55 @@ extension PeopleViewController: UISearchBarDelegate {
 		reloadData(with: searchText)
 	}
 }
-// MARK: - Data Source
+
+//MARK: - Setup Sign out action
+private extension PeopleViewController {
+	func setupSignOutAction() {
+		navigationItem.rightBarButtonItem = UIBarButtonItem(title: Metrics.rightBarButtonItemTitle,
+															style: .plain,
+															target: self,
+															action: #selector(signOut))
+	}
+
+	@objc private func signOut() {
+		let alertController = UIAlertController(title: nil,
+												message: Metrics.alertControllerMessage,
+												 preferredStyle: .alert)
+		alertController.addAction(UIAlertAction(title: Metrics.oneAlertActionTitle,
+												style: .cancel,
+												handler: nil))
+		alertController.addAction((UIAlertAction(title: Metrics.twoAlertActionTitle,
+												 style: .destructive,
+												 handler: { (_) in
+			do {
+				try Auth.auth().signOut()
+				UIApplication.shared.keyWindow?.rootViewController = AuthenticationViewController()
+			} catch {
+				print("Error signing out: \(error.localizedDescription)")
+			}
+		})))
+		present(alertController, animated: true, completion: nil)
+	}
+
+
+}
+
+//MARK: - Setup Collection View
+
+private extension PeopleViewController {
+   func setupCollectionView() {
+	   collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: setupCompositionalLayout())
+	   collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+	   collectionView.backgroundColor = .mainWhite()
+	   view.addSubview(collectionView)
+
+	   collectionView.register(SectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeader.reuseIdentifaer)
+	   collectionView.register(UserCell.self, forCellWithReuseIdentifier: UserCell.identifaer)
+
+	   collectionView.delegate = self
+   }
+}
+	// MARK: - Data Source
 
 private extension PeopleViewController {
 	func setupDataSource() {
@@ -121,7 +183,7 @@ private extension PeopleViewController {
 			}
 		})
 
-//MARK: - Section header
+		//MARK: - Section header
 
 		dataSource?.supplementaryViewProvider = {
 			collectionView, kind , indexPath in
@@ -129,13 +191,15 @@ private extension PeopleViewController {
 			guard let section = Section(rawValue: indexPath.section) else { fatalError("Unknown section kind") }
 			
 			let items = self.dataSource?.snapshot().itemIdentifiers(inSection: .users)
-			sectionHeader.configure(text: section.description(usersCount: items?.count ?? 0), font: .systemFont(ofSize: 36, weight: .light), textColor: .label)
+			sectionHeader.configure(text: section.description(usersCount: items?.count ?? 0),
+									font: .systemFont(ofSize: 36, weight: .light),
+									textColor: .label)
 			return sectionHeader
 		}
 	}
 }
 
-//MARK: - Reload Data
+	//MARK: - Reload Data
 
 private extension PeopleViewController {
 	func reloadData(with searchText: String?) {
@@ -151,7 +215,7 @@ private extension PeopleViewController {
 	}
 }
 
-// MARK: - Layout
+	// MARK: - Layout
 
 private extension PeopleViewController {
 	func setupCompositionalLayout() -> UICollectionViewLayout {
@@ -168,7 +232,7 @@ private extension PeopleViewController {
 		}
 
 		let config = UICollectionViewCompositionalLayoutConfiguration()
-		config.interSectionSpacing = 20
+		config.interSectionSpacing = Layout.interSectionSpacing
 		layout.configuration = config
 
 		return layout
@@ -176,53 +240,31 @@ private extension PeopleViewController {
 
 	func setupUsersSection() -> NSCollectionLayoutSection {
 		let sectionHeader = setupSectionHeader()
-		let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+		let itemSize = NSCollectionLayoutSize(widthDimension: Layout.fractionalWidth,
+											  heightDimension: Layout.fractionalHeight)
 		let item = NSCollectionLayoutItem(layoutSize: itemSize)
-		let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.5))
-		let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
-		group.interItemSpacing = .fixed(15)
+		let groupSize = NSCollectionLayoutSize(widthDimension: Layout.groupSizewidthDimension,
+											   heightDimension: Layout.groupSizeHeightDimension)
+		let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+													   subitem: item,
+													   count: Layout.countGroup)
+		group.interItemSpacing = .fixed(Layout.userSectionInsertItemSpacing)
 		let section = NSCollectionLayoutSection(group: group)
-		section.interGroupSpacing = 15
-		section.contentInsets = NSDirectionalEdgeInsets.init(top: 16, leading: 15, bottom: 0, trailing: 15)
+		section.interGroupSpacing = Layout.userSectionInterGroupSpacing
+		section.contentInsets = NSDirectionalEdgeInsets.init(top: Layout.contentInsetsTop,
+															 leading: Layout.contentInsetsLeading,
+															 bottom: Layout.contentInsetsBottom,
+															 trailing: Layout.contentInsetsTrailing)
 		section.boundarySupplementaryItems = [sectionHeader]
 		return section
 	}
 
 	func setupSectionHeader() -> NSCollectionLayoutBoundarySupplementaryItem {
-		let sectionHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(1))
-		let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem (layoutSize: sectionHeaderSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
+		let sectionHeaderSize = NSCollectionLayoutSize(widthDimension: Layout.fractionalWidth,
+													   heightDimension: Layout.sectionHeaderSizeHeightDimension)
+		let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem (layoutSize: sectionHeaderSize,
+																		 elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
 
 		return sectionHeader
-
 	}
 }
- //MARK: - Setup Collection View
-
-private extension PeopleViewController {
-	func setupCollectionView() {
-		collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: setupCompositionalLayout())
-		collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-		collectionView.backgroundColor = .mainWhite()
-		view.addSubview(collectionView)
-
-		collectionView.register(SectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeader.reuseIdentifaer)
-		collectionView.register(UserCell.self, forCellWithReuseIdentifier: UserCell.identifaer)
-
-		collectionView.delegate = self
-
-	}
-}
-
-// мб вынести?
-private extension PeopleViewController {
-	func setupSearchBar() {
-		let searchController = UISearchController(searchResultsController: nil)
-		navigationItem.searchController = searchController
-		navigationItem.hidesSearchBarWhenScrolling = false
-		searchController.obscuresBackgroundDuringPresentation = false
-		navigationController?.navigationBar.barTintColor = .mainWhite()
-		navigationController?.navigationBar.shadowImage = UIImage()
-		searchController.searchBar.delegate = self
-	}
-}
-

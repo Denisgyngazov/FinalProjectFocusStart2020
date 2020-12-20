@@ -10,14 +10,25 @@ import FirebaseAuth
 
 final class SetupProfileViewController: UIViewController {
 
+	//MARK: - Propety
+
+	private enum Metrics {
+		static let titleSucessAllertControl: String = "Success!"
+		static let messageSucessAllertControl: String = "Have a nice chat"
+		static let titleErrorAllertControl: String = "Error!"
+	}
+
 	private let setupProfileView = SetupProfileView()
 	private let currentUser: User
+
+	//MARK: - Life Cycle
 
 	override func loadView() {
 		self.view = setupProfileView
 		setupActionButton()
 	}
 
+	//MARK: - Init
 
 	init(currentUser: User) {
 		self.currentUser = currentUser
@@ -31,8 +42,6 @@ final class SetupProfileViewController: UIViewController {
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-
-
 }
 
 //MARK: - Delegate navigation and picker controller
@@ -44,13 +53,12 @@ extension SetupProfileViewController: UINavigationControllerDelegate {
 		guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
 		setupProfileView.fillImageView.imageView.image = image
 	}
-
 }
-//??
 
 extension SetupProfileViewController: UIImagePickerControllerDelegate {
 
 }
+
 //MARK: - Setup action button
 
 private extension SetupProfileViewController {
@@ -73,14 +81,16 @@ private extension SetupProfileViewController {
 			switch result {
 
 			case .success(let muser):
-				self.showAllertController(title: "Sucess!", message: "Приятного общения!") {
+				self.showAllertController(title: Metrics.titleSucessAllertControl,
+										  message: Metrics.messageSucessAllertControl) {
 					let mainTabBar = MainTabBarController(currentUser: muser)
 					mainTabBar.modalPresentationStyle = .fullScreen
 					self.present(mainTabBar, animated: true, completion: nil)
 				}
 
 			case .failure(let error):
-				self.showAllertController(title: "Error!", message: error.localizedDescription)
+				self.showAllertController(title: Metrics.titleErrorAllertControl,
+										  message: error.localizedDescription)
 			}
 		}
 	}
@@ -92,5 +102,3 @@ private extension SetupProfileViewController {
 		present(imagePickerController, animated: true, completion: nil)
 	}
 }
-
-

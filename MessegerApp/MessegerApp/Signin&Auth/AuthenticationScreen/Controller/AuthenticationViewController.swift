@@ -8,12 +8,21 @@
 import UIKit
 import GoogleSignIn
 
-class AuthenticationViewController: UIViewController {
+final class AuthenticationViewController: UIViewController {
+
+	//MARK: - Property
+
+	private enum Metrics {
+		static let titleSucessAllertControl: String = "Success!"
+		static let messageSucessAllertControl: String = "You are logged in"
+		static let titleErrorAllertControl: String = "Error!"
+	}
 
 	private let authenticationView = AuthenticationView()
-
 	private let signUpViewController = SignUpViewController()
 	private let loginViewController = LoginViewController()
+
+	//MARK: - Life Cycle
 
 	override func loadView() {
 		self.view = authenticationView
@@ -24,7 +33,7 @@ class AuthenticationViewController: UIViewController {
 	}
 }
 
-//MARK: - Google signInDelegate
+	//MARK: - Google signInDelegate
 
 extension AuthenticationViewController: GIDSignInDelegate {
 	func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
@@ -41,19 +50,22 @@ extension AuthenticationViewController: GIDSignInDelegate {
 						UIApplication.getTopViewController()!.present(mainTabBar, animated: true, completion: nil)
 						
 					case .failure(_):
-						UIApplication.getTopViewController()!.showAllertController(title: "Succses", message: "Вы авторизованны") {
-							UIApplication.getTopViewController()!.present(SetupProfileViewController(currentUser: user), animated: true, completion: nil)
+						UIApplication.getTopViewController()!.showAllertController(title: Metrics.titleSucessAllertControl,
+																				   message: Metrics.messageSucessAllertControl) {
+							UIApplication.getTopViewController()!.present(SetupProfileViewController(currentUser: user),
+																		  animated: true, completion: nil)
 						}
 					}
 				}
 			case .failure(let error):
-				UIApplication.getTopViewController()!.showAllertController(title: "Error!", message: error.localizedDescription)
+				UIApplication.getTopViewController()!.showAllertController(title: Metrics.titleErrorAllertControl,
+																		   message: error.localizedDescription)
 			}
 		}
 	}
 }
 
-//MARK: - Realization AuthNavigationDelegate
+	//MARK: - Realization AuthNavigationDelegate
 
 extension AuthenticationViewController: AuthNavigationDelegate {
 	func toLoginViewController() {
@@ -65,7 +77,7 @@ extension AuthenticationViewController: AuthNavigationDelegate {
 	}
 }
 
-//MARK: - Delegate Google
+	//MARK: - Delegate Google
 
 private extension AuthenticationViewController {
 	func setupGoogleDelegate() {
@@ -73,7 +85,7 @@ private extension AuthenticationViewController {
 	}
 }
 
-//MARK: - Delegate signin and login
+	//MARK: - Delegate signin and login
 
 private extension AuthenticationViewController {
 	func setupSiginLoginDelegate() {
@@ -82,7 +94,7 @@ private extension AuthenticationViewController {
 	}
 }
 
-//MARK: - Setup action button
+	//MARK: - Setup action button
 
 private extension AuthenticationViewController {
 	func setupActionButton() {
@@ -103,12 +115,3 @@ private extension AuthenticationViewController {
 		GIDSignIn.sharedInstance()?.signIn()
 	}
 }
-
-
-
-
-
-
-
-
-
