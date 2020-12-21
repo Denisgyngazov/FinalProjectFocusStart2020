@@ -40,7 +40,6 @@ struct Message: Hashable, Decodable {
 		self.friendUserImageString = friendUserImageString
 		self.lastMessage = lastMessage
 		self.id = id
-		
 	}
 
 

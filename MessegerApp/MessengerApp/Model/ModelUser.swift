@@ -25,7 +25,7 @@ struct MUser: Hashable, Decodable {
 		self.id = id
 	}
 
-//MARK: - Document snapshot
+	//MARK: - Document snapshot
 
 	init?(document: DocumentSnapshot) {
 		guard let data = document.data() else { return nil }
@@ -43,7 +43,8 @@ struct MUser: Hashable, Decodable {
 		self.sex = sex
 		self.id = id
 	}
-//MARK: - Query Document snapshot
+
+	//MARK: - Query Document snapshot
 
 	init?(document: QueryDocumentSnapshot) {
 		let data = document.data() 

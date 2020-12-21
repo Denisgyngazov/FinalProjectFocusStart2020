@@ -77,7 +77,7 @@
 		C435C99A258784FC004FFC5D /* ActiveChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveChatCell.swift; sourceTree = "<group>"; };
 		C435C9A02588774D004FFC5D /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		C435C9A325888BD5004FFC5D /* WaitingChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitingChatCell.swift; sourceTree = "<group>"; };
-		C4AC5CF225834D0400764614 /* MessegerApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MessegerApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C4AC5CF225834D0400764614 /* MessengerApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MessengerApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4AC5CF525834D0400764614 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C4AC5CF725834D0400764614 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		C4AC5CF925834D0400764614 /* AuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewController.swift; sourceTree = "<group>"; };
@@ -237,7 +237,7 @@
 		C4AC5CE925834D0400764614 = {
 			isa = PBXGroup;
 			children = (
-				C4AC5CF425834D0400764614 /* MessegerApp */,
+				C4AC5CF425834D0400764614 /* MessengerApp */,
 				C4AC5CF325834D0400764614 /* Products */,
 				0783154075D8534084EF6C45 /* Pods */,
 				BE745B1A6FEE860BE4E4F29E /* Frameworks */,
@@ -247,12 +247,12 @@
 		C4AC5CF325834D0400764614 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C4AC5CF225834D0400764614 /* MessegerApp.app */,
+				C4AC5CF225834D0400764614 /* MessengerApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C4AC5CF425834D0400764614 /* MessegerApp */ = {
+		C4AC5CF425834D0400764614 /* MessengerApp */ = {
 			isa = PBXGroup;
 			children = (
 				C435C9A925888C9D004FFC5D /* Model */,
@@ -267,7 +267,7 @@
 				C4AC5D2425845FED00764614 /* Storyboard */,
 				C4AC5D2525845FFF00764614 /* Assets */,
 			);
-			path = MessegerApp;
+			path = MessengerApp;
 			sourceTree = "<group>";
 		};
 		C4AC5D1225836ABC00764614 /* Delegate */ = {
@@ -459,9 +459,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		C4AC5CF125834D0400764614 /* MessegerApp */ = {
+		C4AC5CF125834D0400764614 /* MessengerApp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C4AC5D0625834D0600764614 /* Build configuration list for PBXNativeTarget "MessegerApp" */;
+			buildConfigurationList = C4AC5D0625834D0600764614 /* Build configuration list for PBXNativeTarget "MessengerApp" */;
 			buildPhases = (
 				E0D5CCD521BFCE307FDCD6E1 /* [CP] Check Pods Manifest.lock */,
 				C4AC5CEE25834D0400764614 /* Sources */,
@@ -474,9 +474,9 @@
 			);
 			dependencies = (
 			);
-			name = MessegerApp;
+			name = MessengerApp;
 			productName = MessegerApp;
-			productReference = C4AC5CF225834D0400764614 /* MessegerApp.app */;
+			productReference = C4AC5CF225834D0400764614 /* MessengerApp.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -493,7 +493,7 @@
 					};
 				};
 			};
-			buildConfigurationList = C4AC5CED25834D0400764614 /* Build configuration list for PBXProject "MessegerApp" */;
+			buildConfigurationList = C4AC5CED25834D0400764614 /* Build configuration list for PBXProject "MessengerApp" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -506,7 +506,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C4AC5CF125834D0400764614 /* MessegerApp */,
+				C4AC5CF125834D0400764614 /* MessengerApp */,
 			);
 		};
 /* End PBXProject section */
@@ -779,7 +779,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = AA797XU959;
-				INFOPLIST_FILE = MessegerApp/Assets/Info.plist;
+				INFOPLIST_FILE = MessengerApp/Assets/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -799,7 +799,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = AA797XU959;
-				INFOPLIST_FILE = MessegerApp/Assets/Info.plist;
+				INFOPLIST_FILE = MessengerApp/Assets/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -814,7 +814,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C4AC5CED25834D0400764614 /* Build configuration list for PBXProject "MessegerApp" */ = {
+		C4AC5CED25834D0400764614 /* Build configuration list for PBXProject "MessengerApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C4AC5D0425834D0600764614 /* Debug */,
@@ -823,7 +823,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C4AC5D0625834D0600764614 /* Build configuration list for PBXNativeTarget "MessegerApp" */ = {
+		C4AC5D0625834D0600764614 /* Build configuration list for PBXNativeTarget "MessengerApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C4AC5D0725834D0600764614 /* Debug */,

@@ -9,9 +9,13 @@ import UIKit
 import SDWebImage
 
 final class ProfileViewController: UIViewController {
+	
+	//MARK: - Property
 
 	private let profileView = ProfileView()
 	private let user: MUser
+
+	//MARK: - Life Cycle
 
 	override func loadView() {
 		self.view = profileView
@@ -57,4 +61,3 @@ private extension ProfileViewController {
 		}
 	}
 }
-
