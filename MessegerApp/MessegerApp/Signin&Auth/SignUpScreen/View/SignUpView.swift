@@ -29,7 +29,7 @@ final class SingUpView: UIView {
 		static let helloAndEmailLabelTopAnchor: CGFloat = 50
 		static let leadingAndTrailingAnchor: CGFloat = 30
 		static let labelTopAnchor: CGFloat = 20
-		static let loginButtonTopAnchor: CGFloat = 15
+		static let loginButtonTopAnchor: CGFloat = 13
 		static let loginButtonLeadingAnchor: CGFloat = 15
 	}
 

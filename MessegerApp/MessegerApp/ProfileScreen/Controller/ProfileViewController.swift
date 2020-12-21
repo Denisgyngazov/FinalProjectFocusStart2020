@@ -18,6 +18,8 @@ final class ProfileViewController: UIViewController {
 		setupActionSend()
 	}
 
+	//MARK: - Init
+
 	init(user: MUser) {
 		self.user = user
 		profileView.nameLabel.text = user.username
@@ -31,7 +33,7 @@ final class ProfileViewController: UIViewController {
 	}
 }
 
-//MARK: - Action send
+	//MARK: - Setup action send
 
 private extension ProfileViewController {
 	func setupActionSend() {

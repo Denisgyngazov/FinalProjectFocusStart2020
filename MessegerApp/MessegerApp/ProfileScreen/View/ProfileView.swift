@@ -14,7 +14,7 @@ final class ProfileView: UIView {
 	private let containerView = UIView()
 	 let imageView = UIImageView(image: #imageLiteral(resourceName: "avatar"), contentMode: .scaleAspectFill)
 	 let nameLabel = UILabel(text: "", font: .systemFont(ofSize: 28, weight: .light))
-	 let aboutLabel = UILabel(text: "Wants to start a dialogue with you", font: .systemFont(ofSize: 16, weight: .light))
+	 let aboutLabel = UILabel(text: "", font: .systemFont(ofSize: 16, weight: .light))
 	 let myTextFIeld = InsertableTextField()
 
 	//MARK: - Init
@@ -29,7 +29,8 @@ final class ProfileView: UIView {
 		fatalError("init(coder:) has not been implemented")
 	}
 }
-//MARK: - Setup Apperance
+
+	//MARK: - Setup Apperance
 
 private extension ProfileView {
 	func setupViewApperance() {

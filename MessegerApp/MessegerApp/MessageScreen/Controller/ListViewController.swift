@@ -317,3 +317,16 @@ private extension ListViewController {
 	}
 }
 
+//MARK: - Setup search bar
+
+private extension ListViewController {
+	func setupSearchBar() {
+		let searchController = UISearchController(searchResultsController: nil)
+		navigationItem.searchController = searchController
+		navigationItem.hidesSearchBarWhenScrolling = false
+		searchController.obscuresBackgroundDuringPresentation = false
+		navigationController?.navigationBar.barTintColor = .mainWhite()
+		navigationController?.navigationBar.shadowImage = UIImage()
+	}
+}
+

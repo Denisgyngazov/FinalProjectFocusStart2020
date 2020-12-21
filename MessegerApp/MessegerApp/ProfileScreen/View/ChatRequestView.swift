@@ -19,20 +19,22 @@ final class ChatRequestView: UIView {
 		static let cancelIsShadow: Bool = false
 		static let cancelCornerRadius: CGFloat = 10
 
-		static let aceptTitle: String = "Acept"
+		static let aceptTitle: String = "Accept"
 		static let aceptFont: UIFont? = .avenirDefault()
 		static let aceptTitleColor: UIColor = .mainWhite()
 		static let aceptBackgroundColor: UIColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
 		static let aceptIsShadow: Bool = false
 		static let aceptCornerRadius: CGFloat = 10
 	}
+
+	
 	
 	//MARK: - View
 
 	private let containerView = UIView()
 	 let imageView = UIImageView(image: #imageLiteral(resourceName: "avatar"), contentMode: .scaleAspectFill)
 	 let nameLabel = UILabel(text: "", font: .systemFont(ofSize: 28, weight: .light))
-	private let aboutLabel = UILabel(text: "", font: .systemFont(ofSize: 16, weight: .light))
+	private let aboutLabel = UILabel(text: "Wants to start a dialogue with you", font: .systemFont(ofSize: 16, weight: .light))
 	 let cancelButton = UIButton(title: Metrics.cancelTitle,
 								   titleColor: Metrics.cancelTitleColor,
 								   backgroundColor: Metrics.cancelBackgroundColor,

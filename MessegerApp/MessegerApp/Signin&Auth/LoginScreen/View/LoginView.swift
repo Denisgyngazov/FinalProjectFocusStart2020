@@ -40,7 +40,7 @@ final class LoginView: UIView {
 		static let googleLabelTopAnchor: CGFloat = 50
 		static let leadingAndTrailingAnchor: CGFloat = 30
 		static let topAnchorLabel: CGFloat = 20
-		static let signUpButtonTopAnchor: CGFloat = 15
+		static let signUpButtonTopAnchor: CGFloat = 13
 		static let signUpButtonLeadingAnchor: CGFloat = 15
 
 	}

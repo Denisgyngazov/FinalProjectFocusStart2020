@@ -268,3 +268,17 @@ private extension PeopleViewController {
 		return sectionHeader
 	}
 }
+
+	//MARK: - Setup search bar
+
+private extension PeopleViewController {
+	func setupSearchBar() {
+		let searchController = UISearchController(searchResultsController: nil)
+		navigationItem.searchController = searchController
+		navigationItem.hidesSearchBarWhenScrolling = false
+		searchController.obscuresBackgroundDuringPresentation = false
+		navigationController?.navigationBar.barTintColor = .mainWhite()
+		navigationController?.navigationBar.shadowImage = UIImage()
+		searchController.searchBar.delegate = self
+	}
+}

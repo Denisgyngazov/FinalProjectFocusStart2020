@@ -27,7 +27,7 @@ final class SetupProfileView: UIView {
 	}
 
 	private enum Layout {
-		static let profileLabelTopAnchor: CGFloat = 100
+		static let profileLabelTopAnchor: CGFloat = 50
 		static let fillImageViewTopAnchor: CGFloat = 30
 		static let fullNameLabelTopAnchor: CGFloat = 30
 		static let textFieldTopAnchor: CGFloat = 20
@@ -35,7 +35,7 @@ final class SetupProfileView: UIView {
 		static let aboutLabelTopAnchor: CGFloat = 30
 		static let sexLabelTopAnchor: CGFloat = 20
 		static let sexSegmentTopAnchor: CGFloat = 20
-		static let comeInButtonTopAnchor: CGFloat = 50
+		static let comeInButtonTopAnchor: CGFloat = 30
 	}
 
 	//MARK: - View

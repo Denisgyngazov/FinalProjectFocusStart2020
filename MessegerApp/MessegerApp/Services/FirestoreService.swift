@@ -26,7 +26,7 @@ final class FirestoreService {
 	}
 }
 
-//MARK: - Save profile in Firestore
+	//MARK: - Save profile in Firestore
 
 extension FirestoreService {
 	func saveProfileWith(id: String,
@@ -75,7 +75,7 @@ extension FirestoreService {
 	}
 }
 
-//MARK: - Delete waiting chat
+	//MARK: - Delete waiting chat
 
 extension FirestoreService {
 	func deleteWaitingChat(chat: Message, completion: @escaping (Result<Void, Error>) -> Void) {
@@ -132,7 +132,7 @@ extension FirestoreService {
 	}
 }
 
-//MARK: - Change to actiave chat
+	//MARK: - Change to actiave chat
 
 extension FirestoreService {
 	func changeToActive(chat: Message, completion: @escaping (Result<Void, Error>) -> Void) {
@@ -211,7 +211,7 @@ extension FirestoreService {
 	}
 }
 
-//MARK: - Get user data
+	//MARK: - Get user data
 
 extension FirestoreService {
 	func getUserData(user: User, completion: @escaping (Result<MUser, Error>) -> Void) {
